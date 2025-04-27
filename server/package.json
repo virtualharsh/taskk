@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Task is a noting taking app",
+  "homepage": "https://github.com/virtualharsh/Taskk#readme",
+  "bugs": {
+    "url": "https://github.com/virtualharsh/Taskk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virtualharsh/Taskk.git"
+  },
+  "license": "ISC",
+  "author": "Harsh",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index"
+  }
+}
