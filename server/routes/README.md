@@ -1,0 +1,1 @@
+# Contains all the routes and methods of rest API  

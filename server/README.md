@@ -1,0 +1,1 @@
+> npm i express mongoose bcrypt cookie-parser cors dotenv jsonwebtoken 
