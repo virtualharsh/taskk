@@ -1,9 +1,31 @@
-import React from 'react'
+// src/App.jsx
+import { Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
+import PrivateRoute from './utils/PrivateRoute';
+import { routes } from './Routes';
 
-const App = () =>{
+function App() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false); // fake login state
+
     return (
-        <div>App</div>
-    )
+        <Routes>
+            {routes.map(({ path, element, private: isPrivate }) => (
+                <Route
+                    key={path}
+                    path={path}
+                    element={
+                        isPrivate ? (
+                            <PrivateRoute isAuthenticated={isAuthenticated}>
+                                {element}
+                            </PrivateRoute>
+                        ) : (
+                            element
+                        )
+                    }
+                />
+            ))}
+        </Routes>
+    );
 }
 
 export default App;

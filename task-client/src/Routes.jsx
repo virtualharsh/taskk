@@ -1,0 +1,11 @@
+import Home from "./pages/Home";
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+
+export const routes = [
+    { path: '/', element: <Landing /> },
+    { path: '/home', element: <Home />, private: true },
+    { path: '/login', element: <Login /> },
+    { path: '*', element: <NotFound /> }
+];
