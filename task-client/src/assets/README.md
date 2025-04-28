@@ -1,1 +1,0 @@
-# contains all static items
