@@ -7,11 +7,6 @@ create folders
     - pages/
     - utils/ 
 
-create routes.jsx
-    export const routes = [
-        { path: '/', element: <Landing /> },
-        { path: '/home', element: <Home />, private: true },
-        { path: '/login', element: <Login /> },
-        { path: '*', element: <NotFound /> }
-    ];
+npm i react-router-dom
 
+create routes 
