@@ -22,7 +22,12 @@ export default function ModeToggle() {
             <Button
                 onClick={toggleTheme}
                 variant="icon"
-                className="w-12 h-12 p-0 flex items-center justify-center"
+                className="w-8 h-8 p-0 flex items-center justify-center cursor-pointer rounded-full shadow-md border transition-colors"
+                style={{
+                    backgroundColor: theme === "dark" ? "#1a1a1a" : "#ffffff", // dark and light backgrounds
+                    borderColor: theme === "dark" ? "#444444" : "#ddd", // light border in light mode, dark border in dark mode
+                    color: theme === "dark" ? "#fff" : "#333" // light text for dark mode, dark text for light mode
+                }}
             >
                 {theme === "dark" ? (
                     <Sun style={{ width: "20px", height: "20px" }} />

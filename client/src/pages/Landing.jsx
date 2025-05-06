@@ -8,8 +8,6 @@ import ModeToggle from '@/components/mode-toggle'
 const Landing = () => {
     const { theme, setTheme } = useTheme();
 
-    
-
     return (
         <div className="min-h-screen w-full relative bg-white dark:bg-black text-black dark:text-white">
             {/* Background grid effect */}
@@ -20,23 +18,22 @@ const Landing = () => {
                 {/* Left - Logo */}
                 <div className="flex items-center gap-2 font-semibold">
                     <SquareCheckBig size={24} />
-                    <span className="text-2xl">Task</span>
+                    <span className="text-2xl">Taskk</span>
                 </div>
 
                 {/* Right - Theme icon and Login */}
                 <div className="flex items-center gap-2 md:gap-4">
-                    <ModeToggle />
-
+                    <ModeToggle className="cursor-pointer" /> {/* No background for ModeToggle */}
 
                     <Link className="text-2xl" to="/Signup">
-                        <Button>
+                        <Button className="cursor-pointer">
                             <SmilePlus />
                             Signup
                         </Button>
                     </Link>
-                    
+
                     <Link className="text-2xl" to="/login">
-                        <Button>
+                        <Button className="cursor-pointer">
                             <LogIn />
                             Login
                         </Button>
