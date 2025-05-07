@@ -7,10 +7,13 @@ import ModeToggle from "@/components/mode-toggle"
 import { Link } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
 
-const Login = () => {
+const Signup = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [passwordsMatch, setPasswordsMatch] = useState(true)
     const [emailError, setEmailError] = useState("")
 
     const validateEmail = (email) => {
@@ -29,6 +32,18 @@ const Login = () => {
         }
     }
 
+    const handleConfirmPasswordChange = (e) => {
+        const value = e.target.value
+        setConfirmPassword(value)
+        setPasswordsMatch(password === value || value === "")
+    }
+
+    const handlePasswordChange = (e) => {
+        const value = e.target.value
+        setPassword(value)
+        setPasswordsMatch(confirmPassword === value || confirmPassword === "")
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
         
@@ -37,8 +52,13 @@ const Login = () => {
             return
         }
         
+        if (password !== confirmPassword) {
+            setPasswordsMatch(false)
+            return
+        }
+        
         // Process form submission here
-        console.log("Login form submitted:", { email, password })
+        console.log("Form submitted:", { email, password })
     }
 
     return (
@@ -57,7 +77,7 @@ const Login = () => {
                     </div>
 
                     <CardHeader className="text-center text-2xl font-bold">
-                        Login
+                        Sign up
                     </CardHeader>
 
                     <CardContent className="space-y-4">
@@ -66,7 +86,7 @@ const Login = () => {
                                 <div>
                                     <Input
                                         type="email"
-                                        placeholder="Email Address"
+                                        placeholder="Email"
                                         value={email}
                                         onChange={handleEmailChange}
                                         className={`focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-none bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 ${
@@ -86,7 +106,7 @@ const Login = () => {
                                         type={showPassword ? "text" : "password"}
                                         placeholder="Password"
                                         value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        onChange={handlePasswordChange}
                                         className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-none pr-10 bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800"
                                         required
                                     />
@@ -104,14 +124,48 @@ const Login = () => {
                                         )}
                                     </Button>
                                 </div>
+                                
+                                <div className="relative">
+                                    <Input
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        placeholder="Confirm Password"
+                                        value={confirmPassword}
+                                        onChange={handleConfirmPasswordChange}
+                                        className={`focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-none pr-10 bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 ${
+                                            !passwordsMatch && confirmPassword
+                                                ? "border-red-500 focus:border-red-500"
+                                                : ""
+                                        }`}
+                                        required
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="sm"
+                                        className="absolute right-0 top-0 h-full px-3 py-2 cursor-pointer text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    >
+                                        {showConfirmPassword ? (
+                                            <EyeOff className="h-4 w-4" />
+                                        ) : (
+                                            <Eye className="h-4 w-4" />
+                                        )}
+                                    </Button>
+                                </div>
+                                
+                                {!passwordsMatch && confirmPassword && (
+                                    <p className="text-red-500 text-xs mt-1">
+                                        Passwords do not match
+                                    </p>
+                                )}
 
                                 <div className="flex items-center justify-between">
-                                    <Link to="/NotFound">
+                                    <Link to="/Login">
                                         <Badge
                                             variant="outline"
                                             className="cursor-pointer hover:underline text-xs border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white"
                                         >
-                                            Forgot Password?
+                                            Already have an account? Login
                                         </Badge>
                                     </Link>
                                 </div>
@@ -119,9 +173,9 @@ const Login = () => {
                                 <Button 
                                     type="submit" 
                                     className="w-full cursor-pointer bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100"
-                                    disabled={!email || emailError || !password}
+                                    disabled={!passwordsMatch || !password || !confirmPassword || !email || emailError}
                                 >
-                                    Login
+                                    Sign up
                                 </Button>
                             </div>
                         </form>
@@ -132,4 +186,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default Signup;

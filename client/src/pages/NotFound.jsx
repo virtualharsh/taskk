@@ -68,8 +68,11 @@ export default function NotFound() {
     };
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center p-6 bg-black text-white">
-            <div className={`max-w-lg w-full transition-all duration-500 ${isVisible ? "opacity-100" : "opacity-0 transform translate-y-4"}`}>
+        <div className="flex min-h-screen flex-col items-center justify-center p-6 bg-black text-white relative">
+            {/* Grid background effect */}
+            <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#736b6b2e_1px,transparent_1px),linear-gradient(to_bottom,#736b6b2e_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+            
+            <div className={`max-w-lg w-full transition-all duration-500 relative z-10 ${isVisible ? "opacity-100" : "opacity-0 transform translate-y-4"}`}>
                 {/* Main card */}
                 <div className="relative">
                     <Card className="overflow-hidden bg-black border-gray-800">
