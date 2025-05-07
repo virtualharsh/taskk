@@ -23,7 +23,7 @@ const Landing = () => {
 
                 {/* Right - Theme icon and Login */}
                 <div className="flex items-center gap-2 md:gap-4">
-                    <ModeToggle className="cursor-pointer" /> {/* No background for ModeToggle */}
+                    <ModeToggle size="large" className="cursor-pointer" /> {/* No background for ModeToggle */}
 
                     <Link className="text-2xl" to="/Signup">
                         <Button className="cursor-pointer">

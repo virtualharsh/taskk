@@ -21,7 +21,7 @@ const Login = () => {
     const handleEmailChange = (e) => {
         const value = e.target.value
         setEmail(value)
-        
+
         if (value && !validateEmail(value)) {
             setEmailError("Please enter a valid email address")
         } else {
@@ -31,36 +31,33 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        
+
         if (!validateEmail(email)) {
             setEmailError("Please enter a valid email address")
             return
         }
-        
-        // Process form submission here
+
         console.log("Login form submitted:", { email, password })
     }
 
     return (
         <div className="min-h-screen w-full relative bg-white dark:bg-black text-black dark:text-white transition-colors">
-
             {/* Grid background effect */}
             <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#736b6b2e_1px,transparent_1px),linear-gradient(to_bottom,#736b6b2e_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 
             {/* Centered Card */}
             <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
-                <Card className="w-full max-w-md p-6 relative shadow-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
-
-                    {/* Theme Toggle Button with background */}
+                <Card className="w-full max-w-md px-6 py-8 sm:px-10 sm:py-10 relative shadow-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
+                    {/* Theme Toggle */}
                     <div className="absolute top-2 right-2">
-                        <ModeToggle className="cursor-pointer" />
+                        <ModeToggle />
                     </div>
 
-                    <CardHeader className="text-center text-2xl font-bold">
+                    <CardHeader className="text-center text-2xl sm:text-3xl font-bold mb-4">
                         Login
                     </CardHeader>
 
-                    <CardContent className="space-y-4">
+                    <CardContent>
                         <form onSubmit={handleSubmit}>
                             <div className="space-y-4">
                                 <div>
@@ -69,9 +66,7 @@ const Login = () => {
                                         placeholder="Email Address"
                                         value={email}
                                         onChange={handleEmailChange}
-                                        className={`focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-none bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 ${
-                                            emailError ? "border-red-500 focus:border-red-500" : ""
-                                        }`}
+                                        className={`focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-none bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 ${emailError ? "border-red-500 focus:border-red-500" : ""}`}
                                         required
                                     />
                                     {emailError && (
@@ -80,7 +75,7 @@ const Login = () => {
                                         </p>
                                     )}
                                 </div>
-                                
+
                                 <div className="relative">
                                     <Input
                                         type={showPassword ? "text" : "password"}
@@ -105,24 +100,31 @@ const Login = () => {
                                     </Button>
                                 </div>
 
-                                <div className="flex items-center justify-between">
-                                    <Link to="/NotFound">
-                                        <Badge
+                                <div className="flex justify-end mb-4">
+                                    <Link to="/NotFound"
                                             variant="outline"
                                             className="cursor-pointer hover:underline text-xs border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white"
                                         >
                                             Forgot Password?
-                                        </Badge>
+                                        
                                     </Link>
                                 </div>
 
-                                <Button 
-                                    type="submit" 
+                                <Button
+                                    type="submit"
                                     className="w-full cursor-pointer bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100"
                                     disabled={!email || emailError || !password}
                                 >
                                     Login
                                 </Button>
+
+
+                                <div className="text-center text-sm text-gray-700 dark:text-gray-300 mt-2">
+                                    Don’t have an account?{" "}
+                                    <Link to="/signup" className="text-black dark:text-white font-medium hover:text-gray-900 dark:hover:text-gray-100">
+                                        Sign up
+                                    </Link>
+                                </div>
                             </div>
                         </form>
                     </CardContent>
@@ -132,4 +134,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default Login

@@ -3,7 +3,7 @@ import { Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
 
-export default function ModeToggle() {
+export default function ModeToggle({ size = "small" }) {
     const { theme, setTheme } = useTheme()
     const [isTransitioning, setIsTransitioning] = useState(false)
 
@@ -23,16 +23,12 @@ export default function ModeToggle() {
                 onClick={toggleTheme}
                 variant="icon"
                 className="w-8 h-8 p-0 flex items-center justify-center cursor-pointer transition-colors"
-                // style={{
-                //     backgroundColor: theme === "dark" ? "#1a1a1a" : "#ffffff", // dark and light backgrounds
-                //     borderColor: theme === "dark" ? "#444444" : "#ddd", // light border in light mode, dark border in dark mode
-                //     color: theme === "dark" ? "#fff" : "#333" // light text for dark mode, dark text for light mode
-                // }}
+
             >
                 {theme === "dark" ? (
-                    <Sun style={{ width: "20px", height: "20px" }} />
+                    <Sun style={{ width: `${size === "small" ? "16px" : "20px"}`, height: "auto" }} />
                 ) : (
-                    <Moon style={{ width: "20px", height: "20px" }} />
+                    <Moon style={{ width: `${size === "small" ? "16px" : "20px"}`, height: "auto" }} />
                 )}
             </Button>
 
@@ -41,4 +37,4 @@ export default function ModeToggle() {
             )}
         </>
     )
-}
+}  
