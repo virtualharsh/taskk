@@ -15,10 +15,10 @@ const Login = () => {
 
             {/* Centered Card */}
             <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
-                <Card className="w-full max-w-sm p-6 relative shadow-lg border">
+                <Card className="w-full max-w-md p-6 relative shadow-lg border">
 
                     {/* Theme Toggle Button with background */}
-                    <div className="absolute -top-2 -right-2">
+                    <div className="absolute top-2 right-2">
                         <ModeToggle className="cursor-pointer" /> {/* Background applied here */}
                     </div>
 
