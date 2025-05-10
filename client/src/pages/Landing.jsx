@@ -25,7 +25,7 @@ const Landing = () => {
                 <div className="flex items-center gap-2 md:gap-4">
                     <ModeToggle size="large" className="cursor-pointer" /> {/* No background for ModeToggle */}
 
-                    <Link className="text-2xl" to="/Signup">
+                    <Link className="text-2xl" to="/signup">
                         <Button className="cursor-pointer">
                             <SmilePlus />
                             Signup

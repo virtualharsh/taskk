@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import ModeToggle from "@/components/mode-toggle"
 import { Link } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+
 
 const Signup = () => {
     const [email, setEmail] = useState("")
@@ -14,6 +16,7 @@ const Signup = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [passwordsMatch, setPasswordsMatch] = useState(true)
     const [emailError, setEmailError] = useState("")
+    const navigate = useNavigate()
 
     const validateEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -54,8 +57,10 @@ const Signup = () => {
             setPasswordsMatch(false)
             return
         }
-
         console.log("Signup form submitted:", { email, password })
+        navigate("/auth", {
+            state: { email, password }
+        })
     }
 
     return (

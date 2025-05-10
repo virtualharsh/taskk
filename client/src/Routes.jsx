@@ -10,6 +10,6 @@ export const routes = [
     { path: '/home', element: <Home />, private: true },
     { path: '/login', element: <Login /> },
     { path: '/signup', element: <Signup /> },
-    { path: '/authuser', element: <AuthUser /> },
+    { path: '/auth', element: <AuthUser /> },
     { path: '*', element: <NotFound /> }
 ];
