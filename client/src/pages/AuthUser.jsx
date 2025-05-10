@@ -43,8 +43,8 @@ const AuthUser = () => {
         }
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleGenerateOTP = (e) => {
+        setOtpToggle(true)
 
         if (!validateUsername(username)) {
             setUsernameError("Please enter a valid username")
@@ -53,7 +53,14 @@ const AuthUser = () => {
 
         if (!otp) return
 
-        console.log("Authentication form submitted:", { username, otp })
+        // TODO:
+        // insert the data into database with OTP
+    }
+
+    const handleSubmit = (e) =>{
+        // TODO:
+        // check OTP with database for given username and return TRUE OR FALSE
+
     }
 
     return (
@@ -71,13 +78,14 @@ const AuthUser = () => {
                     </CardHeader>
 
                     <CardContent>
-                        <form onSubmit={handleSubmit}>
+                        <form>
                             <div className="space-y-4">
                                 <Input
                                     type="text"
                                     placeholder="Select Username"
                                     value={username}
                                     onChange={handleUsernameChange}
+                                    disabled={otpToggle}
                                     className={`focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-none bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 ${usernameError ? "border-red-500 focus:border-red-500" : ""}`}
                                     required
                                 />
@@ -91,7 +99,7 @@ const AuthUser = () => {
                                     <Button
                                         className="w-full"
                                         disabled={!validateUsername(username)}
-                                        onClick={() => setOtpToggle(true)}
+                                        onClick={handleGenerateOTP}
                                         type="button"
                                     >
                                         Generate OTP
@@ -135,7 +143,7 @@ const AuthUser = () => {
                                 {otpToggle && (
                                     <Button
                                         className="w-full"
-                                        onClick={() => console.log({email, username, password, otp})}
+                                        onClick={handleSubmit}
                                         type="button"
                                     >
                                         Submit
