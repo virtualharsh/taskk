@@ -96,12 +96,9 @@ const setVerified = async (req, res) => {
             { new: true }
         );
 
-
-        
         if (!result) {
             return res.redirect("http://localhost:5173/NotFound");
         }
-    
 
         // Redirect to React login page (adjust URL as needed)
         res.redirect("http://localhost:5173/login");
@@ -113,9 +110,40 @@ const setVerified = async (req, res) => {
 };
 
 
-const checkUser = async (req, res) => {
 
+const checkUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const user = await User.findOne({
+            $or: [
+                { email: email },
+                { username: email }
+            ]
+        });
+
+
+        if (!user) {
+            return res.status(404).json({ message: "User does not exist" });
+        }
+        if (!user?.isVerified) {
+            return res.status(403).json({ message: "Please verify your account before login" });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid password" });
+        }
+
+        res.status(200).json({ message: "User validated", user });
+
+    } catch (err) {
+        console.error("Error checking user:", err);
+        res.status(500).json({ message: "Internal Server Error", error: err.message });
+    }
 };
+
+
 
 module.exports = {
     checkExistingMail,

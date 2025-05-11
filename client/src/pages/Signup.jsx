@@ -10,16 +10,16 @@ import { toast } from 'sonner';
 
 
 const Signup = () => {
-    const [email, setEmail] = useState("joshijayc075@gmail.com");
-    const [username, setUsername] = useState("jay");
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
 
     const [isEmailValid, setEmailValid] = useState(true);
     const [emailExists, setEmailExists] = useState(false);
 
     const [usernameExists, setUsernameExists] = useState(false);
 
-    const [password, setPassword] = useState("123123");
-    const [confirmPassword, setConfirmPassword] = useState("123123");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 

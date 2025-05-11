@@ -10,6 +10,7 @@ const checkAuth = (req, res, next) => {
 authRouter.post('/signup', addUser);
 authRouter.post("/check-email", checkExistingMail);
 authRouter.post("/check-username", checkExistingUserName);
-authRouter.post('/login', checkAuth, checkUser);
+authRouter.post('/login', checkUser);
 authRouter.get('/:id',setVerified);
+
 module.exports = authRouter

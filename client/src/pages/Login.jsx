@@ -5,25 +5,41 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import ModeToggle from "@/components/mode-toggle"
 import { Link } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
+import { toast } from 'sonner';
+import axios from 'axios'
 
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
-    
+    // const navigate = useNavigate(); // to redirect after login
 
-    
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
 
-        if (!validateEmail(email)) {
-            setEmailError("Please enter a valid email address")
-            return
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            // If verified, attempt login
+            const loginRes = await axios.post("http://localhost:5000/api/auth/login", {
+                email,
+                password,
+            });
+
+            console.log(loginRes);
+            
+
+            toast.success("Login successful!");
+            // save token or redirect as needed
+            // navigate("/dashboard"); // or your landing page
+
+        } catch (err) {
+            toast.error(err?.response?.data?.message);
+            
+            // toast.error(res.err.data.message);
         }
-
-        console.log("Login form submitted:", { email, password })
-    }
+    };
 
     return (
         <div className="min-h-screen w-full relative bg-white dark:bg-black text-black dark:text-white transition-colors">
@@ -47,10 +63,10 @@ const Login = () => {
                             <div className="space-y-4">
                                 <div>
                                     <Input
-                                        type="email"
-                                        placeholder="Email Address"
+                                        type="text"
+                                        placeholder="Email or Username"
                                         value={email}
-                                        onChange={(e)=>setEmail(e.target.value)}
+                                        onChange={(e) => setEmail(e.target.value)}
                                         required
                                     />
                                 </div>
@@ -80,18 +96,17 @@ const Login = () => {
 
                                 <div className="flex justify-end mb-4">
                                     <Link to="/NotFound"
-                                            variant="outline"
-                                            className="cursor-pointer hover:underline text-xs border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white"
-                                        >
-                                            Forgot Password?
-                                        
+                                        variant="outline"
+                                        className="cursor-pointer hover:underline text-xs border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white"
+                                    >
+                                        Forgot Password?
+
                                     </Link>
                                 </div>
 
                                 <Button
                                     type="submit"
-                                    className="w-full cursor-pointer bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100"
-                                    disabled={!email || !password}
+                                    className='w-full'
                                 >
                                     Login
                                 </Button>
