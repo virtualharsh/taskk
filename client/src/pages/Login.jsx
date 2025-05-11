@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import ModeToggle from "@/components/mode-toggle"
 import { Link } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
