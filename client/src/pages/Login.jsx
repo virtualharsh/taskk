@@ -10,23 +10,9 @@ const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
-    const [emailError, setEmailError] = useState("")
+    
 
-    const validateEmail = (email) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        return regex.test(email)
-    }
-
-    const handleEmailChange = (e) => {
-        const value = e.target.value
-        setEmail(value)
-
-        if (value && !validateEmail(value)) {
-            setEmailError("Please enter a valid email address")
-        } else {
-            setEmailError("")
-        }
-    }
+    
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -64,14 +50,9 @@ const Login = () => {
                                         type="email"
                                         placeholder="Email Address"
                                         value={email}
-                                        onChange={handleEmailChange}
+                                        onChange={(e)=>setEmail(e.target.value)}
                                         required
                                     />
-                                    {emailError && (
-                                        <p className="text-red-500 text-xs mt-1">
-                                            {emailError}
-                                        </p>
-                                    )}
                                 </div>
 
                                 <div className="relative">
@@ -110,7 +91,7 @@ const Login = () => {
                                 <Button
                                     type="submit"
                                     className="w-full cursor-pointer bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100"
-                                    disabled={!email || emailError || !password}
+                                    disabled={!email || !password}
                                 >
                                     Login
                                 </Button>

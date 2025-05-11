@@ -7,15 +7,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
 import axios from 'axios';
 import { toast } from 'sonner';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
+
 
 const Signup = () => {
     const [email, setEmail] = useState("jayjoshi@yopmail.com");
