@@ -23,6 +23,8 @@ const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const [isLoading,setLoading] = useState(false);
+
     const navigate = useNavigate();
 
     const passwordsMatch = password === confirmPassword;
@@ -88,6 +90,7 @@ const Signup = () => {
         e.preventDefault();
         try {
             // TODO: Validation of all input fields before API call
+            setLoading(true);
             const res = await axios.post('http://localhost:5000/api/auth/signup', {
                 email,
                 password,
@@ -101,6 +104,7 @@ const Signup = () => {
             setConfirmPassword('');
             setUsername('')
             toast.error(error.response?.data?.message || "Something went wrong!");
+            setLoading(false);
         }
     }
 
@@ -227,11 +231,19 @@ const Signup = () => {
                                     </p>
                                 )}
 
-                                <Button
-                                    type="submit"
+<Button
+    type="submit"
                                     className="mt-4 w-full cursor-pointer bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100"
+                                    disabled={isLoading}
                                 >
-                                    Sign up
+                                    {isLoading ? (
+                                        <div className="flex items-center justify-center gap-2">
+                                            <div className="w-4 h-4 border-2 border-white dark:border-black border-t-transparent rounded-full animate-spin" />
+                                            Signing up...
+                                        </div>
+                                    ) : (
+                                        "Sign up"
+                                    )}
                                 </Button>
 
                                 <div className="text-center text-sm text-gray-700 dark:text-gray-300 mt-2">

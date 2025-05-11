@@ -3,17 +3,19 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import ModeToggle from "@/components/mode-toggle"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
 import { toast } from 'sonner';
 import axios from 'axios'
+import { useAuth } from '../context/AuthContext';
+
 
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
-    // const navigate = useNavigate(); // to redirect after login
-
+    const navigate = useNavigate(); // to redirect after login
+    const { setIsAuthenticated } = useAuth();
 
 
 
@@ -25,19 +27,13 @@ const Login = () => {
             const loginRes = await axios.post("http://localhost:5000/api/auth/login", {
                 email,
                 password,
-            });
-
-            console.log(loginRes);
-            
-
-            toast.success("Login successful!");
-            // save token or redirect as needed
-            // navigate("/dashboard"); // or your landing page
+            },{withCredentials:true});
+            toast.success(loginRes.data.message);            
+            setIsAuthenticated(true);
+            navigate("/home"); // or your landing page
 
         } catch (err) {
             toast.error(err?.response?.data?.message);
-            
-            // toast.error(res.err.data.message);
         }
     };
 
