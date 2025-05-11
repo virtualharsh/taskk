@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
+    avatar:{
+        type:String,
+        default:"",
+    },
     email: {
         type: String,
         required: true,
@@ -19,8 +23,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    otp: String,
-    isVerified: Boolean,
+    isVerified: {
+        type:Boolean,
+        default:false,
+    },
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

@@ -65,7 +65,6 @@ const Login = () => {
                                         placeholder="Email Address"
                                         value={email}
                                         onChange={handleEmailChange}
-                                        className={`focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-none bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800 ${emailError ? "border-red-500 focus:border-red-500" : ""}`}
                                         required
                                     />
                                     {emailError && (
@@ -81,7 +80,6 @@ const Login = () => {
                                         placeholder="Password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-none pr-10 bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800"
                                         required
                                     />
                                     <Button

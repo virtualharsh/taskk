@@ -1,37 +1,122 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/auth.model');
+const mongoose = require('mongoose');
 
 const checkExistingMail = async (req, res) => {
-    
+    try {
+        const email = req.body.email || "";
+
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" });
+        }
+
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            return res.status(200).json({ exists: true });
+        } else {
+            return res.status(200).json({ exists: false });
+        }
+
+    } catch (error) {
+        console.error("Error checking email:", error);
+        return res.status(500).json({ message: "Server error" });
+    }
 };
 
 const checkExistingUserName = async (req, res) => {
-    
+    try {
+        const username = req.body.username || "";
+
+        if (!username) {
+            return res.status(400).json({ message: "Username is required" });
+        }
+
+        const existingUser = await User.findOne({ username });
+
+        if (existingUser) {
+            return res.status(200).json({ exists: true });
+        } else {
+            return res.status(200).json({ exists: false });
+        }
+
+    } catch (error) {
+        console.error("Error checking email:", error);
+        return res.status(500).json({ message: "Server error" });
+    }
 };
+
+const generateOtp = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 const addUser = async (req, res) => {
-    
+    try {
+        const { email, password, username } = req.body;
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) return res.status(400).json({ message: "User already exists" });
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const otp = generateOtp();
+
+
+        const newUser = new User({ email, username, password: hashedPassword, otp });
+
+        const result = await newUser.save();
+
+        console.log(result);
+
+        return res.status(201).json({ message: "User registered successfully" });
+
+    } catch (error) {
+        console.log(error);
+
+        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
 };
 
-const verifyOTP = async (req, res) => {
+
+const setVerified = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.redirect("http://localhost:5173/NotFound");
+        }
+
+        const result = await User.findOneAndUpdate(
+            { _id: id },
+            { isVerified: true },
+            { new: true }
+        );
+
+
+        
+        if (!result) {
+            return res.redirect("http://localhost:5173/NotFound");
+        }
     
+
+        // Redirect to React login page (adjust URL as needed)
+        res.redirect("http://localhost:5173/login");
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Internal Server Error", error: err.message });
+    }
 };
 
-const resendOTP = async (req, res) => {
-    
-};
 
 const checkUser = async (req, res) => {
-    
+
 };
 
-// Export all controller functions correctly
 module.exports = {
     checkExistingMail,
     checkExistingUserName,
     checkUser,
     addUser,
-    resendOTP,
-    verifyOTP,
+    setVerified,
 };

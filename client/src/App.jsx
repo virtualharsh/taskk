@@ -27,7 +27,7 @@ function App() {
                     />
                 ))}
             </Routes>
-            <Toaster richColors />
+            <Toaster richColors position='top-right' />
         </>
 
     );

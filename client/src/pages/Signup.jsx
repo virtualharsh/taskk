@@ -3,45 +3,85 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import ModeToggle from "@/components/mode-toggle"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
+import axios from 'axios';
+import { toast } from 'sonner';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
 
 const Signup = () => {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
-    const [isEmailValid, setEmailValid] = useState(0);
+
+    const [isEmailValid, setEmailValid] = useState(true);
+    const [emailExists, setEmailExists] = useState(false);
+
+    const [usernameExists, setUsernameExists] = useState(false);
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const navigate = useNavigate();
+
     const passwordsMatch = password === confirmPassword;
     const isPasswordValid = password.length >= 6;
 
-
-    const validateEmail = () => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        return regex.test(email)
-    }
+    let debounceTimer;
 
     const handleEmailChange = (e) => {
         const newEmail = e.target.value;
         setEmail(newEmail);
-        if (newEmail.length <= 1) return setEmailValid(0);
 
-        const isRegexValid = validateEmail();
-        const isUnique = false;
+        const isRegexValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail);
+        setEmailValid(isRegexValid);
 
-        if (!isRegexValid && !isUnique) {
-            setEmailValid(-1);
-        } else {
-            setEmailValid(1);
+        if (!isRegexValid) {
+            setEmailExists(false);
+            return;
         }
-    }
 
-    const handleUsernameChange = (e) =>{
-        setUsername(e.target.value)
+        if (debounceTimer) {
+            clearTimeout(debounceTimer);
+        }
+
+        debounceTimer = setTimeout(async () => {
+            try {
+                const res = await axios.post("http://localhost:5000/api/auth/check-email", { email: newEmail });
+                setEmailExists(res.data.exists);
+            } catch (err) {
+                console.error("Error checking email:", err);
+                setEmailExists(false);
+            }
+        }, 300);
+    };
+
+    const handleUsernameChange = (e) => {
+        const newUsername = e.target.value;
+        setUsername(newUsername);
+        
+        if (debounceTimer) {
+            clearTimeout(debounceTimer);
+        }
+
+        debounceTimer = setTimeout(async () => {
+            try {
+                const res = await axios.post("http://localhost:5000/api/auth/check-username", { username: newUsername });
+                setUsernameExists(res.data.exists);
+            } catch (err) {
+                console.error("Error checking email:", err);
+                setUsernameExists(false);
+            }
+        }, 300);
     }
 
     const handlePasswordChange = (e) => {
@@ -52,9 +92,24 @@ const Signup = () => {
         setConfirmPassword(e.target.value);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // submit logic
+        try {
+            // TODO: Validation of all input fields before API call
+            const res = await axios.post('http://localhost:5000/api/auth/signup', {
+                email,
+                password,
+                username
+            });
+            toast.success(res.data.message + "; verification mail sent");
+            navigate('/login');
+        } catch (error) {
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+            setUsername('')
+            toast.error(error.response?.data?.message || "Something went wrong!");
+        }
     }
 
     return (
@@ -84,15 +139,16 @@ const Signup = () => {
                                         onChange={handleEmailChange}
                                         required
                                         className={
-                                            isEmailValid === -1
-                                                ? 'focus-visible:ring-1 focus-visible:ring-red-500 focus-visible:border-red-500 focus-visible:outline-none ring-1 ring-red-500'
-                                                : isEmailValid === 1
-                                                    ? 'focus-visible:ring-1 focus-visible:ring-green-500 focus-visible:border-green-500 focus-visible:outline-none ring-1 ring-green-500'
-                                                    : 'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[1px]'
+                                            !isEmailValid || emailExists
+                                                ? 'focus-visible:ring-1 ring-1 ring-red-500 border-red-500 focus-visible:border-red-500 focus-visible:outline-none'
+                                                : ''
                                         }
                                     />
-                                    {isEmailValid === -1 && (
-                                        <div className="pt-1 pl-1 text-red-500">Invalid Email</div>
+                                    {!isEmailValid && (
+                                        <div className='text-xs text-red-500 mt-1'>Invalid Email</div>
+                                    )}
+                                    {emailExists && (
+                                        <div className='text-xs text-red-500 mt-1'>Email already registered</div>
                                     )}
                                 </div>
 
@@ -105,15 +161,14 @@ const Signup = () => {
                                         onChange={handleUsernameChange}
                                         required
                                         className={
-                                            isEmailValid === -1
-                                                ? 'focus-visible:ring-1 focus-visible:ring-red-500 focus-visible:border-red-500 focus-visible:outline-none ring-1 ring-red-500'
-                                                : isEmailValid === 1
-                                                    ? 'focus-visible:ring-1 focus-visible:ring-green-500 focus-visible:border-green-500 focus-visible:outline-none ring-1 ring-green-500'
-                                                    : 'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[1px]'
+                                            usernameExists
+                                                ? 'focus-visible:ring-1 ring-1 ring-red-500 border-red-500 focus-visible:border-red-500 focus-visible:outline-none'
+                                                : ''
                                         }
+                                        
                                     />
-                                    {isEmailValid === -1 && (
-                                        <div className="pt-1 pl-1 text-red-500">Invalid Email</div>
+                                    {usernameExists && (
+                                        <div className='text-xs text-red-500 mt-1'>Username exists</div>
                                     )}
                                 </div>
 
@@ -147,7 +202,6 @@ const Signup = () => {
                                     <p className="text-red-500 text-xs mt-1">Password must be at least 6 characters</p>
                                 )}
 
-
                                 {/* Confirm Password Input */}
                                 <div className="relative">
                                     <Input
@@ -166,6 +220,7 @@ const Signup = () => {
                                     <Button
                                         type="button"
                                         variant="ghost"
+                                        tabIndex={-1}
                                         size="sm"
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                         className="absolute right-0 top-0 h-full px-3 py-2 cursor-pointer text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
