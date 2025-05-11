@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 
 
 const Signup = () => {
-    const [email, setEmail] = useState("jayjoshi@yopmail.com");
+    const [email, setEmail] = useState("joshijayc075@gmail.com");
     const [username, setUsername] = useState("jay");
 
     const [isEmailValid, setEmailValid] = useState(true);
