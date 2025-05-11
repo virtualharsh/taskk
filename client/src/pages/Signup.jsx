@@ -18,16 +18,16 @@ import {
 } from "@/components/ui/dialog"
 
 const Signup = () => {
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("jayjoshi@yopmail.com");
+    const [username, setUsername] = useState("jay");
 
     const [isEmailValid, setEmailValid] = useState(true);
     const [emailExists, setEmailExists] = useState(false);
 
     const [usernameExists, setUsernameExists] = useState(false);
 
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [password, setPassword] = useState("123123");
+    const [confirmPassword, setConfirmPassword] = useState("123123");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 

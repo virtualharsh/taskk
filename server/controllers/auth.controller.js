@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/auth.model');
 const mongoose = require('mongoose');
+const sendVerificationEmail = require("../utils/sendVerificationEmail");
+
 
 const checkExistingMail = async (req, res) => {
     try {
@@ -66,7 +68,9 @@ const addUser = async (req, res) => {
 
         const result = await newUser.save();
 
-        console.log(result);
+        console.log(result._id);
+
+        await sendVerificationEmail(email, result._id);
 
         return res.status(201).json({ message: "User registered successfully" });
 
