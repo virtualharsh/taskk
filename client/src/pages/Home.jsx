@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 const Home = () => {
     const SERVER = import.meta.env.VITE_SERVER; 
+    
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
     useEffect(() => {

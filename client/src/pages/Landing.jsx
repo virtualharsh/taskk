@@ -1,12 +1,20 @@
-import React from "react";
+import Cookies from 'js-cookie';
 import { SquareCheckBig, Sun, Moon, LogIn, SmilePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@/components/theme-provider";
 import ModeToggle from '@/components/mode-toggle'
+import { useEffect } from "react";
 
 const Landing = () => {
     const { theme, setTheme } = useTheme();
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const token = Cookies.get('authToken') || null
+        if (token)
+            navigate('/home')
+    }, []);
 
     return (
         <div className="min-h-screen w-full relative bg-white dark:bg-black text-black dark:text-white">

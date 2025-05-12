@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
@@ -7,11 +7,13 @@ import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
 import { toast } from 'sonner';
 import axios from 'axios'
+import Cookies from 'js-cookie';
+
 
 
 const Login = () => {
     const API_URL = import.meta.env.VITE_API_URL;
-    
+
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
@@ -33,6 +35,12 @@ const Login = () => {
             toast.error(err?.response?.data?.message);
         }
     };
+    
+    // useEffect(()=>{
+    //     const token = Cookies.get('authToken') || null
+    //     if(token)
+    //         navigate('/home')
+    // },[]);
 
     return (
         <div className="min-h-screen w-full relative bg-white dark:bg-black text-black dark:text-white transition-colors">
