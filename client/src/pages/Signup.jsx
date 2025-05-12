@@ -10,6 +10,8 @@ import { toast } from 'sonner';
 
 
 const Signup = () => {
+    const API_URL = import.meta.env.VITE_API_URL;
+    
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
 
@@ -50,7 +52,7 @@ const Signup = () => {
 
         debounceTimer = setTimeout(async () => {
             try {
-                const res = await axios.post("http://localhost:5000/api/auth/check-email", { email: newEmail });
+                const res = await axios.post(`${API_URL}/auth/check-email`, { email: newEmail });
                 setEmailExists(res.data.exists);
             } catch (err) {
                 console.error("Error checking email:", err);
@@ -69,7 +71,7 @@ const Signup = () => {
 
         debounceTimer = setTimeout(async () => {
             try {
-                const res = await axios.post("http://localhost:5000/api/auth/check-username", { username: newUsername });
+                const res = await axios.post(`${API_URL}/auth/check-username`, { username: newUsername });
                 setUsernameExists(res.data.exists);
             } catch (err) {
                 console.error("Error checking email:", err);
@@ -91,7 +93,7 @@ const Signup = () => {
         try {
             // TODO: Validation of all input fields before API call
             setLoading(true);
-            const res = await axios.post('http://localhost:5000/api/auth/signup', {
+            const res = await axios.post(`${API_URL}/auth/signup`, {
                 email,
                 password,
                 username

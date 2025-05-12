@@ -10,6 +10,8 @@ import axios from 'axios'
 
 
 const Login = () => {
+    const API_URL = import.meta.env.VITE_API_URL;
+    
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
@@ -20,7 +22,7 @@ const Login = () => {
 
         try {
             // If verified, attempt login
-            const loginRes = await axios.post("http://localhost:5000/api/auth/login", {
+            const loginRes = await axios.post(`${API_URL}/auth/login`, {
                 email,
                 password,
             },{withCredentials:true});

@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const Home = () => {
+    const SERVER = import.meta.env.VITE_SERVER; 
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
     useEffect(() => {
         const verifyUser = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/home", { withCredentials: true });                
+                const response = await axios.get(`${SERVER}/home`, { withCredentials: true });                
                 setUser(response.data.user);
 
             } catch (error) {
