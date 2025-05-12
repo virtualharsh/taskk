@@ -3,6 +3,7 @@ const dovenv = require('dotenv')
 const cors = require('cors')
 const connectMongo = require('./connection')
 const authRouter = require('./routes/auth.router')
+const staticRouter = require('./routes/static.router')
 const cookieParser = require('cookie-parser');
 
 
@@ -18,8 +19,7 @@ app.use(cors({
     credentials: true // Allow cookies to be sent
 }));
 app.use(cookieParser());
-
-// app.use('/', staticRouter)
+app.use('/', staticRouter)
 app.use('/api/auth/', authRouter)
 
 

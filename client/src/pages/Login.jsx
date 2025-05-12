@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
 import { toast } from 'sonner';
 import axios from 'axios'
-import { useAuth } from '../context/AuthContext';
 
 
 const Login = () => {
@@ -15,9 +14,6 @@ const Login = () => {
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate(); // to redirect after login
-    const { setIsAuthenticated } = useAuth();
-
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,9 +24,8 @@ const Login = () => {
                 email,
                 password,
             },{withCredentials:true});
-            toast.success(loginRes.data.message);            
-            setIsAuthenticated(true);
-            navigate("/home"); // or your landing page
+            toast.success("Login Successful; Welcome to Taskk");            
+            navigate("/home"); 
 
         } catch (err) {
             toast.error(err?.response?.data?.message);

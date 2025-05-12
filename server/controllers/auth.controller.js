@@ -138,23 +138,24 @@ const checkUser = async (req, res) => {
             return res.status(401).json({ message: "Invalid password" });
         }
 
-        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-        res.cookie("username", token, {
+        res.cookie("authToken", token, {
             httpOnly: false,  // Prevents client-side JS from accessing the cookie
             secure: process.env.NODE_ENV === "production", // Use `true` in production (HTTPS required)
             sameSite: "lax", // Helps with CSRF attacks
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
+
         // Avatar cookie — must NOT be httpOnly if you want frontend access
-        console.log(user.avatar);
+        // console.log(user.avatar);
         
-        res.cookie("avatarUrl", user.avatar , {
-            httpOnly: false, 
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-        });
+        // res.cookie("avatarUrl", user.avatar , {
+        //     httpOnly: false, 
+        //     secure: process.env.NODE_ENV === "production",
+        //     sameSite: "lax",
+        //     maxAge: 7 * 24 * 60 * 60 * 1000,
+        // });
 
         res.status(200).json({ message: "User validated"});
 
