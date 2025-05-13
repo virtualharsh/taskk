@@ -23,7 +23,7 @@ app.use('/', staticRouter)
 app.use('/api/auth/', authRouter)
 
 
-connectMongo('mongodb://localhost:27017/Taskk')
+connectMongo(process.env.MONGODB_URI)
 
 app.listen(PORT, (err) => {
     if (err) console.log(err);
