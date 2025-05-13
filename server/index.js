@@ -15,7 +15,7 @@ const app = express()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://taskk-1-16pw.onrender.com/'],// Allow frontend URL
+    origin: true,// Allow frontend URL
     credentials: true // Allow cookies to be sent
 }));
 app.use(cookieParser());
