@@ -28,18 +28,23 @@ const Login = () => {
                 email,
                 password,
             },{withCredentials:true});
-            toast.success("Login Successful; Welcome to Taskk");            
-            navigate("/home"); 
+            toast.success("Login Successful; Welcome to Taskk"); 
 
+            const data = {
+                token : loginRes?.data?.token,
+                avatar: loginRes?.data?.avatar
+            }
+
+            localStorage.setItem('authToken', JSON.stringify(data))
+            
+            navigate('/home')
         } catch (err) {
             toast.error(err?.response?.data?.message);
         }
     };
     
     useEffect(()=>{
-        const token = Cookies.get('authToken') || null
-        console.log(token);
-        
+        const token = localStorage.getItem('authToken') || null        
         if(token)
             navigate('/home')
     },[]);
@@ -69,6 +74,8 @@ const Login = () => {
                                         type="text"
                                         placeholder="Email or Username"
                                         value={email}
+                                        id="username"
+                                        autoComplete="on"
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                     />
@@ -79,6 +86,7 @@ const Login = () => {
                                         type={showPassword ? "text" : "password"}
                                         placeholder="Password"
                                         value={password}
+                                        id="password"
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
                                     />
@@ -86,6 +94,7 @@ const Login = () => {
                                         type="button"
                                         variant="ghost"
                                         size="sm"
+                                        
                                         className="absolute right-0 top-0 h-full px-3 py-2 cursor-pointer text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
                                         onClick={() => setShowPassword(!showPassword)}
                                     >

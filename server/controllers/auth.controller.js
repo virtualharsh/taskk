@@ -140,12 +140,12 @@ const checkUser = async (req, res) => {
 
         const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-        res.cookie("authToken", token, {
-            httpOnly: true,
-            secure: true,           // Required for sameSite: "none"
-            sameSite: "none",       // Required for cross-site cookies
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-        });
+        // res.cookie("authToken", token, {
+        //     httpOnly: true,
+        //     secure: true,           // Required for sameSite: "none"
+        //     sameSite: "none",       // Required for cross-site cookies
+        //     maxAge: 7 * 24 * 60 * 60 * 1000,
+        // });
 
 
 
@@ -159,7 +159,7 @@ const checkUser = async (req, res) => {
         //     maxAge: 7 * 24 * 60 * 60 * 1000,
         // });
 
-        res.status(200).json({ message: "User validated" });
+        res.status(200).json({ message: "User validated", token,avatar:user.avatar });
 
     } catch (err) {
         console.error("Error checking user:", err);
