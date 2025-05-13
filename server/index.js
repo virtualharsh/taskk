@@ -24,12 +24,6 @@ app.use(cookieParser());
 app.use('/', staticRouter);
 app.use('/api/auth/', authRouter);
 
-
-// Catch-all route (for React Router)
-app.get("*", (req, res) => {
-    res.sendFile(path.join(root, "index.html"));
-});
-
 connectMongo(process.env.MONGODB_URI);
 
 app.listen(PORT, () => {
