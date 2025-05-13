@@ -24,9 +24,6 @@ app.use(cookieParser());
 app.use('/', staticRouter);
 app.use('/api/auth/', authRouter);
 
-// Serve static files from React app
-const root = path.join(__dirname, "..", "client", "dist"); // Adjust path
-app.use(express.static(root));
 
 // Catch-all route (for React Router)
 app.get("*", (req, res) => {
