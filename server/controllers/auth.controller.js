@@ -90,7 +90,7 @@ const setVerified = async (req, res) => {
         const id = req.params.id;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.redirect("http://localhost:5173/NotFound");
+            return res.json({ message: "Not found" });
         }
 
         const result = await User.findOneAndUpdate(
@@ -100,11 +100,11 @@ const setVerified = async (req, res) => {
         );
 
         if (!result) {
-            return res.redirect("http://localhost:5173/NotFound");
+            return res.json({message:"Not found"});
         }
 
         // Redirect to React login page (adjust URL as needed)
-        res.redirect("http://localhost:5173/login");
+        res.redirect("https://taskk-1-16pw.onrender.com/");
 
     } catch (err) {
         console.log(err);

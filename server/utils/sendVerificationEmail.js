@@ -305,7 +305,6 @@ ${process.env.BASE_URL}
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log(`Verification email sent successfully to ${toEmail}`);
         return { success: true };
     } catch (error) {
         console.error(`Failed to send verification email to ${toEmail}:`, error);
