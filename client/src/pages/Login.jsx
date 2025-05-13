@@ -36,11 +36,11 @@ const Login = () => {
         }
     };
     
-    // useEffect(()=>{
-    //     const token = Cookies.get('authToken') || null
-    //     if(token)
-    //         navigate('/home')
-    // },[]);
+    useEffect(()=>{
+        const token = Cookies.get('authToken') || null
+        if(token)
+            navigate('/home')
+    },[]);
 
     return (
         <div className="min-h-screen w-full relative bg-white dark:bg-black text-black dark:text-white transition-colors">
