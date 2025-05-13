@@ -24,12 +24,6 @@ const Home = () => {
 
         fetchUser();
 
-        const token = Cookies.get('authToken') || null
-
-        if (token == null) {
-            toast.error('Please login to continue')
-            navigate('/login')
-        }
     }, []);
     return (
         <div>Home, Welcome {user}</div>
