@@ -4,8 +4,8 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 const staticRouter = express.Router()
 
-staticRouter.get('/home', (req, res) => {    
-    res.status(200).json({});
+staticRouter.get('/home',authMiddleware ,(req, res) => {    
+    res.status(200).json({user:req.user});
 });
 
 staticRouter.post("/logout", (req, res) => {

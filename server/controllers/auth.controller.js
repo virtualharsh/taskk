@@ -147,6 +147,8 @@ const checkUser = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
 
+        
+
         // Avatar cookie — must NOT be httpOnly if you want frontend access
         // console.log(user.avatar);
         

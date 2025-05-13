@@ -3,9 +3,6 @@ const { addUser, checkUser, setVerified, checkExistingMail, checkExistingUserNam
 
 const authRouter = express.Router()
 
-const checkAuth = (req, res, next) => {
-    next()
-}
 
 authRouter.post('/signup', addUser);
 authRouter.post("/check-email", checkExistingMail);
