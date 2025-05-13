@@ -21,7 +21,7 @@ const RotatingText = forwardRef((props, ref) => {
         initial = { y: "100%", opacity: 0 },
         animate = { y: 0, opacity: 1 },
         exit = { y: "-120%", opacity: 0 },
-        animatePresenceMode = "wait",
+        animatePresenceMode = "wait", // changed from "wait" to "sync"
         animatePresenceInitial = false,
         rotationInterval = 2000,
         staggerDuration = 0,
@@ -67,7 +67,6 @@ const RotatingText = forwardRef((props, ref) => {
                 needsSpace: i !== arr.length - 1,
             }));
         }
-        // For a custom separator
         return currentText.split(splitBy).map((part, i, arr) => ({
             characters: [part],
             needsSpace: i !== arr.length - 1,
@@ -159,15 +158,11 @@ const RotatingText = forwardRef((props, ref) => {
 
     return (
         <motion.span
-            className={cn(
-                "flex flex-wrap whitespace-pre-wrap relative",
-                mainClassName
-            )}
+            className={cn("flex flex-wrap whitespace-pre-wrap relative", mainClassName)}
             {...rest}
             layout
             transition={transition}
         >
-            {/* Screen-reader only text */}
             <span className="sr-only">{texts[currentTextIndex]}</span>
             <AnimatePresence mode={animatePresenceMode} initial={animatePresenceInitial}>
                 <motion.div
@@ -191,7 +186,11 @@ const RotatingText = forwardRef((props, ref) => {
                                         key={charIndex}
                                         initial={initial}
                                         animate={animate}
-                                        exit={exit}
+                                        exit={{
+                                            y: "-100%",
+                                            opacity: 0,
+                                            transition: { duration: 0.1 }, // 🔥 Fast exit
+                                        }}
                                         transition={{
                                             ...transition,
                                             delay: getStaggerDelay(
