@@ -28,7 +28,7 @@ const sendVerificationEmail = async (toEmail, id) => {
     
     const transporter = nodemailer.createTransport(transportConfig);
 
-    const verificationUrl = `${process.env.BASE_URL}/api/auth/${id}`;
+    const verificationUrl = `${process.env.BASE_URL}/api/auth/verify/${id}`;
     const currentYear = new Date().getFullYear();
     
     // Extract domain from email for personalization
