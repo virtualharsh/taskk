@@ -38,6 +38,8 @@ const Login = () => {
     
     useEffect(()=>{
         const token = Cookies.get('authToken') || null
+        console.log(token);
+        
         if(token)
             navigate('/home')
     },[]);

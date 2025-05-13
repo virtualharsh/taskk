@@ -67,7 +67,7 @@ const addUser = async (req, res) => {
         const avatarURL = `https://robohash.org/${randomId}?set=set3&bgset=bg0&size=200x200`;
 
 
-        const newUser = new User({ email, username, password: hashedPassword, avatar:avatarURL });
+        const newUser = new User({ email, username, password: hashedPassword, avatar: avatarURL });
 
         const result = await newUser.save();
 
@@ -100,7 +100,7 @@ const setVerified = async (req, res) => {
         );
 
         if (!result) {
-            return res.json({message:"Not found"});
+            return res.json({ message: "Not found" });
         }
 
         // Redirect to React login page (adjust URL as needed)
@@ -141,17 +141,17 @@ const checkUser = async (req, res) => {
         const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
         res.cookie("authToken", token, {
-            httpOnly: false,  // Prevents client-side JS from accessing the cookie
-            secure: process.env.NODE_ENV === "production", // Use `true` in production (HTTPS required)
-            sameSite: "lax", // Helps with CSRF attacks
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+            httpOnly: false,
+            secure: true,           // Required for sameSite: "none"
+            sameSite: "none",       // Required for cross-site cookies
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
-        
+
 
         // Avatar cookie — must NOT be httpOnly if you want frontend access
         // console.log(user.avatar);
-        
+
         // res.cookie("avatarUrl", user.avatar , {
         //     httpOnly: false, 
         //     secure: process.env.NODE_ENV === "production",
@@ -159,7 +159,7 @@ const checkUser = async (req, res) => {
         //     maxAge: 7 * 24 * 60 * 60 * 1000,
         // });
 
-        res.status(200).json({ message: "User validated"});
+        res.status(200).json({ message: "User validated" });
 
     } catch (err) {
         console.error("Error checking user:", err);
