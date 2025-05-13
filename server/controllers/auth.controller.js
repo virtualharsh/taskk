@@ -141,7 +141,7 @@ const checkUser = async (req, res) => {
         const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
         res.cookie("authToken", token, {
-            httpOnly: false,
+            httpOnly: true,
             secure: true,           // Required for sameSite: "none"
             sameSite: "none",       // Required for cross-site cookies
             maxAge: 7 * 24 * 60 * 60 * 1000,
