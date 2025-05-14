@@ -140,26 +140,7 @@ const checkUser = async (req, res) => {
 
         const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-        // res.cookie("authToken", token, {
-        //     httpOnly: true,
-        //     secure: true,           // Required for sameSite: "none"
-        //     sameSite: "none",       // Required for cross-site cookies
-        //     maxAge: 7 * 24 * 60 * 60 * 1000,
-        // });
-
-
-
-        // Avatar cookie — must NOT be httpOnly if you want frontend access
-        // console.log(user.avatar);
-
-        // res.cookie("avatarUrl", user.avatar , {
-        //     httpOnly: false, 
-        //     secure: process.env.NODE_ENV === "production",
-        //     sameSite: "lax",
-        //     maxAge: 7 * 24 * 60 * 60 * 1000,
-        // });
-
-        res.status(200).json({ message: "User validated", token,avatar:user.avatar });
+        res.status(200).json({ message: "User validated", token, avatar: user.avatar, username:user.username });
 
     } catch (err) {
         console.error("Error checking user:", err);

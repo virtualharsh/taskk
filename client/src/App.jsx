@@ -4,12 +4,9 @@ import { useState } from 'react';
 import PrivateRoute from './utils/PrivateRoute';
 import { routes } from './Routes';
 import { Toaster } from 'sonner';
-import axios from "axios";
 
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false); // fake login state
-    axios.defaults.withCredentials = true;
 
     return (
         <>
@@ -20,7 +17,7 @@ function App() {
                         path={path}
                         element={
                             isPrivate ? (
-                                <PrivateRoute isAuthenticated={isAuthenticated}>
+                                <PrivateRoute >
                                     {element}
                                 </PrivateRoute>
                             ) : (

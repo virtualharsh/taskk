@@ -6,8 +6,8 @@ import Signup from "./pages/Signup";
 
 export const routes = [
     { path: '/', element: <Landing /> },
-    { path: '/home', element: <Home /> },
     { path: '/login', element: <Login /> },
     { path: '/signup', element: <Signup /> },
+    { path: '/user/:username', element: <Home /> , private:true},
     { path: '*', element: <NotFound /> }
 ];

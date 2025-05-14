@@ -166,3 +166,15 @@
         opacity: 0;
     }
 }
+
+input:-webkit-autofill {
+    box-shadow: 0 0 0px black inset;
+    /* Use your dark bg color here */
+    -webkit-text-fill-color: black;
+    /* Optional: text color */
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.dark input:-webkit-autofill {   
+    -webkit-text-fill-color: #fff;
+}

@@ -7,9 +7,6 @@ import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeOff } from "lucide-react"
 import { toast } from 'sonner';
 import axios from 'axios'
-import Cookies from 'js-cookie';
-
-
 
 const Login = () => {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -27,27 +24,25 @@ const Login = () => {
             const loginRes = await axios.post(`${API_URL}/auth/login`, {
                 email,
                 password,
-            },{withCredentials:true});
-            toast.success("Login Successful; Welcome to Taskk"); 
-
-            const data = {
-                token : loginRes?.data?.token,
-                avatar: loginRes?.data?.avatar
-            }
-
+            }, { withCredentials: true });
+            toast.success("Login Successful; Welcome to Taskk");            
+            const username = loginRes?.data?.username;
+            const avatar = loginRes?.data?.avatar;
+            const data = { avatar: avatar, user: username }
             localStorage.setItem('authToken', JSON.stringify(data))
-            
-            navigate('/home')
+            navigate(`/user/${username}`)
         } catch (err) {
             toast.error(err?.response?.data?.message);
         }
     };
-    
-    useEffect(()=>{
-        const token = localStorage.getItem('authToken') || null        
-        if(token)
-            navigate('/home')
-    },[]);
+
+    useEffect(() => {
+        const token = JSON.parse(localStorage.getItem('authToken')) || null
+        if (token) {
+            const username = token?.user;
+            navigate(`/user/${username}`)
+        }
+    }, []);
 
     return (
         <div className="min-h-screen w-full relative bg-white dark:bg-black text-black dark:text-white transition-colors">
@@ -94,7 +89,7 @@ const Login = () => {
                                         type="button"
                                         variant="ghost"
                                         size="sm"
-                                        
+
                                         className="absolute right-0 top-0 h-full px-3 py-2 cursor-pointer text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
                                         onClick={() => setShowPassword(!showPassword)}
                                     >
