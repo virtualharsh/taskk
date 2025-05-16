@@ -1,35 +1,30 @@
-// src/App.jsx
 import { Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
 import PrivateRoute from './utils/PrivateRoute';
 import { routes } from './Routes';
 import { Toaster } from 'sonner';
 
+// Recursive function to handle nested routes
+const renderRoutes = (routes) =>
+    routes.map(({ path, element, private: isPrivate, children }) => {
+        const routeElement = isPrivate ? (
+            <PrivateRoute>{element}</PrivateRoute>
+        ) : (
+            element
+        );
+
+        return (
+            <Route key={path} path={path} element={routeElement}>
+                {children && renderRoutes(children)} {/* Recursive call for nested routes */}
+            </Route>
+        );
+    });
 
 function App() {
-
     return (
         <>
-            <Routes>
-                {routes.map(({ path, element, private: isPrivate }) => (
-                    <Route
-                        key={path}
-                        path={path}
-                        element={
-                            isPrivate ? (
-                                <PrivateRoute >
-                                    {element}
-                                </PrivateRoute>
-                            ) : (
-                                element
-                            )
-                        }
-                    />
-                ))}
-            </Routes>
-            <Toaster richColors position='top-right' />
+            <Routes>{renderRoutes(routes)}</Routes>
+            <Toaster richColors position="top-right" />
         </>
-
     );
 }
 
