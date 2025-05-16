@@ -9,9 +9,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <BrowserRouter >
-        <ThemeProvider>
-            <App />
-        </ThemeProvider>
+            <ThemeProvider defaultTheme="dark">
+                <App />
+            </ThemeProvider>
         </BrowserRouter >
     </StrictMode>,
 )

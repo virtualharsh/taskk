@@ -8,6 +8,7 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
+
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
@@ -120,61 +121,38 @@
     }
 }
 
-.mask-radial-custom {
-    -webkit-mask-image: radial-gradient(ellipse 80% 85% at 50% 0%,
-            black 75%,
-            transparent 145%);
-    mask-image: radial-gradient(ellipse 80% 85% at 50% 0%,
-            black 75%,
-            transparent 145%);
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-size: cover;
-    mask-size: cover;
-}
-
 @keyframes theme-reveal {
     0% {
-        clip-path: circle(0% at 100% 0%);
+        clip-path: circle(0px at var(--click-x) var(--click-y));
     }
 
     100% {
-        clip-path: circle(150% at 100% 0%);
+        clip-path: circle(150% at var(--click-x) var(--click-y));
     }
 }
 
-.animate-theme-reveal {
-    animation: theme-reveal 0.4s ease-out;
+.theme-reveal-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    background: var(--overlay-bg, rgba(198, 198, 198, 0.7));
+    backdrop-filter: blur(8px);
+    mix-blend-mode: difference;
+    animation: theme-reveal 1.5s ease-out forwards;
 }
 
-.transition-overlay {
-    background: radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.7), transparent 70%);
-    animation: fadeOut 0.5s ease-out forwards;
-    z-index: 0;
-}
-
-.dark .transition-overlay {
-    background: radial-gradient(circle at 100% 0%, rgba(0, 0, 0, 0.7), transparent 70%);
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
+/* Dark mode variant for the overlay background */
+.dark .theme-reveal-overlay {
+    --overlay-bg: rgba(0, 0, 0, 0.7);
 }
 
 input:-webkit-autofill {
     box-shadow: 0 0 0px black inset;
-    /* Use your dark bg color here */
     -webkit-text-fill-color: black;
-    /* Optional: text color */
     transition: background-color 5000s ease-in-out 0s;
 }
 
-.dark input:-webkit-autofill {   
+.dark input:-webkit-autofill {
     -webkit-text-fill-color: #fff;
 }
