@@ -12,15 +12,21 @@ import {
 import { Home, Bell, Search, Settings, SquareCheckBig } from "lucide-react";
 import { useIsMobile } from "../hooks/use-mobile";
 import useAuth from "../hooks/useAuth";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import ModeToggle from "@/components/mode-toggle";
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from "@/components/ui/avatar"
 
 
 const UserSidebar = () => {
-    const SERVER = import.meta.env.VITE_SERVER;
-    const { user, avatar } = useAuth(SERVER);
-    const isMobile = useIsMobile();
     const { username } = useParams();
+    const isMobile = useIsMobile();
+    const localData = JSON.parse(localStorage.getItem('authToken'));
+    const { avatar, user } = localData;
+    const location = useLocation();
 
     const items = [
         {
@@ -65,7 +71,10 @@ const UserSidebar = () => {
                                             {items.map((item) => (
                                                 <SidebarMenuItem key={item.title}>
                                                     <SidebarMenuButton asChild>
-                                                        <Link to={item.url} className="flex items-center text-xl gap-2 py-5 px-4 hover:bg-accent rounded-md">
+                                                        <Link
+                                                            to={item.url}
+                                                            className={`flex items-center text-xl gap-2 py-5 px-4 rounded-md ${location.pathname === item.url ? "bg-accent text-black dark:text-white" : "hover:bg-accent text-zinc-500 dark:text-zinc-400 "}`}
+                                                        >
                                                             <item.icon size={30} />
                                                             <span>{item.title}</span>
                                                         </Link>
@@ -81,8 +90,20 @@ const UserSidebar = () => {
                 </div>
             )}
 
-            <div className="fixed right-0 top-0 p-4 md:pr-6">
-                <ModeToggle size={24} />
+            <div className="fixed flex gap-2 md:gap-3 items-center justify-start right-0 top-0 p-4 md:pr-6">
+                <div>
+                    <ModeToggle size={24} />
+                </div>
+                <div className="flex cursor-pointer border-[1px] rounded-xl px-2 py-0.5 items-center justify-center gap-1">
+                    <Avatar className='w-12 h-12'>
+                        <AvatarImage 
+                        src={avatar}  
+                        // src="h"
+                        alt="avatar" />
+                        <AvatarFallback>{user.charAt(0).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                    <span className="text-lg">{user}</span>
+                </div>
             </div>
 
             {/* Mobile Bottom Navigation */}
@@ -94,7 +115,11 @@ const UserSidebar = () => {
                                 key={item.title}
                                 to={item.url}
                             >
-                                <item.icon />
+                                <item.icon
+                                    className={`transition-all duration-300 ease-in-out ${location.pathname === item.url
+                                        ? "scale-105"
+                                        : "text-muted-foreground hover:scale-105"}`}
+                                />
                             </Link>
                         ))}
                     </div>

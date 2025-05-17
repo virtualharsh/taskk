@@ -1,18 +1,29 @@
 const express = require('express')
 const jwt = require('jsonwebtoken');
-const authMiddleware = require('../middlewares/authMiddleware');
+const User = require('../models/auth.model');
+
 
 const staticRouter = express.Router()
 
-staticRouter.get('/home',(req, res) => {
-    const token = req?.headers?.token;
+staticRouter.get('/home', async (req, res) => {
+    const username = req.query.user;
 
-    if(!token){
-        return res.end()
+    if (!username) {
+        return res.end();
     }
-    const user = jwt.decode(token)
-    res.status(200).json({user:user.username})
+    try {
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(200).json({ exists: false, message: "User Unauthorized" });
+        }
+
+        return res.status(200).json({ exists: true, message: "User authorized" });
+    } catch (err) {
+        console.error("Error checking user:", err);
+        res.status(500).json({ message: "Internal Server Error", error: err.message });
+    }
 });
+
 
 staticRouter.post("/logout", (req, res) => {
     res.clearCookie("authToken");

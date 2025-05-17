@@ -1,38 +1,41 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const useAuth = (SERVER) => {
-    const [user, setUser] = useState(null);
-    const [avatar, setAvatar] = useState(null);
+const useAuth = () => {
     const navigate = useNavigate();
+    const { username } = useParams();
+    const SERVER = import.meta.env.VITE_SERVER;
 
     useEffect(() => {
-        const fetchUser = async () => {
+        const checkAuth = async () => {
             const localData = JSON.parse(localStorage.getItem('authToken'));
             if (!localData) {
                 navigate('/login');
                 return;
             }
 
-            const { token, avatar } = localData;
-            setAvatar(avatar);
-
             try {
-                const res = await axios.get(`${SERVER}/home`, {
-                    headers: { token }
+                const result = await axios.get(`${SERVER}/home`, {
+                    params: {
+                        user: username,
+                    },
                 });
-                setUser(res.data.user);
+
+                if (!result.data.exists) {
+                    localStorage.removeItem('authToken');
+                    navigate('/login');
+                }
+
             } catch (err) {
-                console.error('Error fetching user:', err);
+                console.error('Auth check failed:', err);
+                localStorage.removeItem('authToken');
                 navigate('/login');
             }
         };
 
-        fetchUser();
-    }, [SERVER, navigate]);
-
-    return { user, avatar };
+        checkAuth();
+    }, [SERVER, navigate, username]);
 };
 
 export default useAuth;

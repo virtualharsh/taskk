@@ -137,7 +137,7 @@
     pointer-events: none;
     z-index: 50;
     background: var(--overlay-bg, rgba(198, 198, 198, 0.7));
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(1px);
     mix-blend-mode: difference;
     animation: theme-reveal 1.5s ease-out forwards;
 }

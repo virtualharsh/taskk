@@ -24,7 +24,9 @@ app.use(cookieParser());
 app.use('/', staticRouter);
 app.use('/api/auth/', authRouter);
 
-connectMongo(process.env.MONGODB_URI);
+(async()=>{
+    await connectMongo(process.env.MONGODB_URI);
+})();
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
