@@ -15,8 +15,10 @@ const Landing = () => {
     const secondSectionRef = useRef(null);
 
     useEffect(() => {
-        const token = Cookies.get('authToken') || null;
-        if (token) navigate('/home');
+        const token = JSON.parse(localStorage.getItem('authToken')) || null
+        if (token) {
+            localStorage.removeItem('authToken')
+        }
     }, []);
 
     useEffect(() => {
