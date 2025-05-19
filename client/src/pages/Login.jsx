@@ -25,12 +25,11 @@ const Login = () => {
                 email,
                 password,
             }, { withCredentials: true });
-            toast.success("Login Successful; Welcome to Taskk");            
-            const username = loginRes?.data?.username;
-            const avatar = loginRes?.data?.avatar;
-            const data = { avatar: avatar, user: username }
-            localStorage.setItem('authToken', JSON.stringify(data))
-            navigate(`/user/${username}`)
+            toast.success("Login Successful; Welcome to Taskk");              
+            localStorage.setItem("authToken", JSON.stringify({ avatar: loginRes.data.avatar, user: loginRes.data.username, token : loginRes.data.token }));
+
+            navigate(`/user/${loginRes.data.username}`)
+            
         } catch (err) {
             toast.error(err?.response?.data?.message);
         }

@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectMongo = require('./connection');
 const authRouter = require('./routes/auth.router');
 const staticRouter = require('./routes/static.router');
+const userRouter = require('./routes/user.router');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
@@ -22,6 +23,7 @@ app.use(cors({
 app.use(cookieParser());
 
 app.use('/', staticRouter);
+app.use('/user', userRouter);
 app.use('/api/auth/', authRouter);
 
 (async()=>{

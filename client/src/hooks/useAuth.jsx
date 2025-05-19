@@ -9,33 +9,31 @@ const useAuth = () => {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const localData = JSON.parse(localStorage.getItem('authToken'));
-            if (!localData) {
-                navigate('/login');
+            const token = JSON.parse(localStorage.getItem("authToken")).token;            
+            if (!token) {
+                navigate("/login");
                 return;
             }
 
             try {
-                const result = await axios.get(`${SERVER}/home`, {
-                    params: {
-                        user: username,
+                const res = await axios.get(`${SERVER}/user/${username}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
                     },
                 });
-
-                if (!result.data.exists) {
-                    localStorage.removeItem('authToken');
-                    navigate('/login');
-                }
-
+                console.log();
+                
+                if(res.data.redirect)
+                    navigate('/login')
             } catch (err) {
-                console.error('Auth check failed:', err);
-                localStorage.removeItem('authToken');
-                navigate('/login');
+                console.error("Auth check failed:", err);
+                localStorage.removeItem("authToken");
+                navigate("/login");
             }
         };
 
         checkAuth();
-    }, [SERVER, navigate, username]);
+    }, [username, SERVER, navigate]);
 };
 
 export default useAuth;
