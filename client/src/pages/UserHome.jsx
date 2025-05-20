@@ -14,12 +14,12 @@ const UserHome = () => {
     return (
         <>
             <div>UserHome</div>
-            <div className='fixed bottom-0 right-0 pr-6 py-24 lg:pb-10'>
+            <div className="fixed bottom-0 right-0 pr-6 py-24 lg:pb-10">
                 <Button
                     onClick={handleCreateNote}
-                    className="bg-black dark:bg-white dark:text-black text-white w-16 h-16 md:w-18 md:h-18 p-0 rounded-full shadow-lg active:scale-95"
+                    className="bg-black dark:bg-white dark:text-black text-white w-12 h-12 md:w-14 md:h-14 p-0 rounded-full"
                 >
-                    <SquarePen size={40} style={{width:"2rem" , height:"2rem"}}/>
+                    <SquarePen className="w-10 h-10 md:w-12 md:h-12" />
                 </Button>
             </div>
         </>

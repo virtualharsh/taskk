@@ -36,7 +36,7 @@ const Notes = () => {
                         placeholder="Untitled"
                         className="w-full text-3xl font-semibold outline-none bg-transparent text-foreground resize-none overflow-hidden"
                         style={{
-                            height: "30px",
+                            height: "40px",
                             border: "none",
                             padding: "0px"
                         }}
@@ -60,10 +60,13 @@ const Notes = () => {
             </div>
 
             <div className="fixed bottom-0 right-0 pr-6 pb-24 lg:pb-10">
-                <Button className="w-12 h-12 p-0 rounded-full shadow-lg active:scale-95">
-                    <Settings className="w-5 h-5" />
+                <Button
+                    className="bg-black dark:bg-white dark:text-black text-white w-12 h-12 md:w-14 md:h-14 p-0 rounded-full"
+                >
+                    <Settings className="w-10 h-10 md:w-12 md:h-12" />
                 </Button>
             </div>
+
         </>
     );
 };
