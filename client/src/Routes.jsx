@@ -7,6 +7,8 @@ import Notifications from "./pages/Notifications";
 import Settings from "./pages/Settings";
 import Search from "./pages/Search";
 import UserHome from "./pages/UserHome";
+import Notes from "./pages/Notes";
+
 
 export const routes = [
     { path: '/', element: <Landing /> },
@@ -21,6 +23,7 @@ export const routes = [
             { path: 'notifications', element: <Notifications /> },
             { path: 'settings', element: <Settings /> },
             { path: 'search', element: <Search /> },
+            { path: 'new', element: <Notes /> }, // 🔥 new route added here
         ]
     },
     { path: '*', element: <NotFound /> }
