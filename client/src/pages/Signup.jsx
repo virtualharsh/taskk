@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 
 const Signup = () => {
     const API_URL = import.meta.env.VITE_API_URL;
-    
+
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
 
@@ -25,7 +25,7 @@ const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const [isLoading,setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -64,7 +64,7 @@ const Signup = () => {
     const handleUsernameChange = (e) => {
         const newUsername = e.target.value;
         setUsername(newUsername);
-        
+
         if (debounceTimer) {
             clearTimeout(debounceTimer);
         }
@@ -131,9 +131,11 @@ const Signup = () => {
                                 {/* Email Input */}
                                 <div>
                                     <Input
+                                        id="email"
                                         type="email"
                                         placeholder="Email Address"
                                         value={email}
+                                        autoComplete="true"
                                         onChange={handleEmailChange}
                                         required
                                         className={
@@ -153,8 +155,10 @@ const Signup = () => {
                                 {/* Username Input */}
                                 <div>
                                     <Input
+                                        id="username"
                                         type="text"
                                         placeholder="Username"
+                                        autoComplete="true"
                                         value={username}
                                         onChange={handleUsernameChange}
                                         required
@@ -163,7 +167,7 @@ const Signup = () => {
                                                 ? 'focus-visible:ring-1 ring-1 ring-red-500 border-red-500 focus-visible:border-red-500 focus-visible:outline-none'
                                                 : ''
                                         }
-                                        
+
                                     />
                                     {usernameExists && (
                                         <div className='text-xs text-red-500 mt-1'>Username exists</div>
@@ -173,6 +177,7 @@ const Signup = () => {
                                 {/* Password Input */}
                                 <div className="relative">
                                     <Input
+                                        id="password"
                                         type={showPassword ? "text" : "password"}
                                         placeholder="Password"
                                         value={password}
@@ -203,6 +208,7 @@ const Signup = () => {
                                 {/* Confirm Password Input */}
                                 <div className="relative">
                                     <Input
+                                        id="confirmPassword"
                                         type={showConfirmPassword ? "text" : "password"}
                                         placeholder="Confirm Password"
                                         value={confirmPassword}
@@ -233,8 +239,8 @@ const Signup = () => {
                                     </p>
                                 )}
 
-<Button
-    type="submit"
+                                <Button
+                                    type="submit"
                                     className="mt-4 w-full cursor-pointer bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-100"
                                     disabled={isLoading}
                                 >
