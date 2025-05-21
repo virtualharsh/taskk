@@ -14,12 +14,6 @@ const Landing = () => {
     const [scrolled, setScrolled] = useState(false);
     const secondSectionRef = useRef(null);
 
-    useEffect(() => {
-        const token = JSON.parse(localStorage.getItem('authToken')) || null
-        if (token) {
-            localStorage.removeItem('authToken')
-        }
-    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -116,6 +110,17 @@ const Landing = () => {
             cancelAnimationFrame(animationRef);
         };
     }, [theme]);
+
+    useEffect(()=>{
+        const storage = localStorage.getItem('authToken');
+
+        if(storage){
+            if (!(JSON.parse(storage)).token){
+                console.log("Clear");
+                localStorage.removeItem('authToken');
+            }
+        }
+    },[])
 
 
     return (

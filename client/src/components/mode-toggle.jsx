@@ -5,46 +5,60 @@ import { useTheme } from "@/components/theme-provider";
 
 export default function ModeToggle({ size = "small" }) {
     const { theme, setTheme } = useTheme();
-    const [isTransitioning, setIsTransitioning] = useState(false);
-    const [clickPos, setClickPos] = useState({ x: 0, y: 0 });
+    const [isAnimating, setIsAnimating] = useState(false);
 
-    const toggleTheme = (e) => {
-        // Get click position relative to viewport
-        const x = e.clientX;
-        const y = e.clientY;
-        setClickPos({ x, y });
+    const toggleTheme = () => {
+        // Start animation
+        setIsAnimating(true);
 
-        setIsTransitioning(true);
-
+        // Change theme after a short delay
         setTimeout(() => {
             setTheme(theme === "dark" ? "light" : "dark");
-        }, 50);
+        }, 250);
 
+        // Reset animation state
         setTimeout(() => {
-            setIsTransitioning(false);
+            setIsAnimating(false);
         }, 500);
     };
 
     return (
-        <>
-            <Button
-                onClick={toggleTheme}
-                variant="icon"
-                className="w-8 h-8 p-0 flex items-center justify-center cursor-pointer transition-colors"
-            >
-                {theme === "dark" ? (
-                    <Sun style={{ width: size === "small" ? "16px" : "20px", height: "auto" }} />
-                ) : (
-                    <Moon style={{ width: size === "small" ? "16px" : "20px", height: "auto" }} />
-                )}
-            </Button>
+        <Button
+            onClick={toggleTheme}
+            variant="ghost"
+            size="icon"
+            className="relative w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:bg-transparent focus:bg-transparent"
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        >
+            <div className="relative">
+                {/* Sun icon */}
+                <Sun
+                    className={`absolute transition-all duration-300 ease-spring ${theme === "dark"
+                            ? "opacity-100 scale-100 rotate-0"
+                            : "opacity-0 scale-75 rotate-45"
+                        }`}
+                    style={{ width: size === "small" ? "16px" : "20px", height: "auto" }}
+                />
 
-            {isTransitioning && <ThemeRevealOverlay x={clickPos.x} y={clickPos.y} />}
-        </>
+                {/* Moon icon */}
+                <Moon
+                    className={`transition-all duration-300 ease-spring ${theme === "light"
+                            ? "opacity-100 scale-100 rotate-0"
+                            : "opacity-0 scale-75 -rotate-45"
+                        }`}
+                    style={{ width: size === "small" ? "16px" : "20px", height: "auto" }}
+                />
+            </div>
+
+            {/* Simple background effect */}
+            <span
+                className={`absolute inset-0 rounded-full transition-colors duration-500 ${isAnimating ? "bg-secondary" : "bg-transparent"
+                    }`}
+                style={{
+                    opacity: isAnimating ? 0.8 : 0,
+                    transform: isAnimating ? "scale(1)" : "scale(0.8)"
+                }}
+            />
+        </Button>
     );
-}
-
-// Separate component for overlay to keep JSX clean
-function ThemeRevealOverlay({ x, y }) {
-    return <div className="theme-reveal-overlay" style={{ "--click-x": `${x}px`, "--click-y": `${y}px` }} />;
 }

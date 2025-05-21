@@ -3,8 +3,8 @@ import UserSidebar from "../components/UserSidebar";
 import useAuth from "../hooks/useAuth";
 
 const HomePage = () => {
-    useAuth();
 
+    useAuth();
     return (
         <div className="flex gap-0 flex-col min-h-screen md:flex-row bg-background text-foreground">
             <UserSidebar />

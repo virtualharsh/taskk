@@ -31,6 +31,7 @@ const Notes = () => {
                 <div className="flex flex-col gap-4 px-4 py-12 md:px-10 max-w-3xl md:mx-auto">
                     {/* Editable Title - Using textarea instead of contentEditable */}
                     <textarea
+                        id="title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Untitled"
@@ -45,6 +46,7 @@ const Notes = () => {
 
                     {/* Editable Body - Using textarea instead of contentEditable */}
                     <textarea
+                        id="taskbody"
                         ref={contentRef}
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
