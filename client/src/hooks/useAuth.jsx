@@ -9,7 +9,7 @@ const useAuth = () => {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const token = JSON.parse(localStorage.getItem("authToken")).token;            
+            const token = JSON.parse(localStorage.getItem("authToken")).token;
             if (!token) {
                 navigate("/login");
                 return;
@@ -21,9 +21,7 @@ const useAuth = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                console.log();
-                
-                if(res.data.redirect)
+                if (res.data.redirect)
                     navigate('/login')
             } catch (err) {
                 console.error("Auth check failed:", err);
