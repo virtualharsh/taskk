@@ -59,7 +59,7 @@ const Notes = () => {
 
             const response = await axios.put(`${API_URL}/tasks/${taskID}`, payload);
             setLoading(false);
-            toast.success("Note saved successfully!");
+            toast.success("Note updated successfully!");
             
 
         } catch (err) {

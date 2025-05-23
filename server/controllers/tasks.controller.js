@@ -69,10 +69,20 @@ const getTaskById = async (req, res) => {
     }
 };
 
-
+const getTasksByUsername = async (req, res) => {
+    const { username } = req.params;
+    try {
+        const tasks = await Task.find({ user: username }).sort({ updatedAt: -1 });
+        res.json({ tasks });
+    } catch (error) {
+        console.error("Error fetching tasks:", error);
+        res.status(500).json({ message: 'Failed to fetch tasks' });
+    }
+};
 
 module.exports = {
     handleCreateTask,
     handleUpdateTask,
-    getTaskById
+    getTaskById,
+    getTasksByUsername,
 };

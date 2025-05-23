@@ -58,7 +58,6 @@ const addUser = async (req, res) => {
         if (existingUser) return res.status(400).json({ message: "User already exists" });
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const otp = generateOtp();
 
         const randomId = Math.floor(Math.random() * 1000000);
         const avatarURL = `https://robohash.org/${randomId}?set=set3&bgset=bg0&size=200x200`;

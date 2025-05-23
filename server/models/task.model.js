@@ -19,6 +19,11 @@ const taskSchema = new mongoose.Schema(
             enum: [STATUS.DELETED, STATUS.TRASHED, STATUS.ACTIVE],
             default: STATUS.ACTIVE,
             required: true
+        },
+
+        favorite:{
+            type:Boolean,
+            default:false,
         }
     },
     { timestamps: true }
