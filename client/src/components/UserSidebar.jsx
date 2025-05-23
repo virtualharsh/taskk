@@ -117,22 +117,23 @@ const UserSidebar = () => {
                         <PopoverContent className="w-36 md:w-40" align="end">
                             <div className="grid gap-2">
                                 <div className="grid gap-2">
-                                    <Button 
-                                        variant="ghost" 
-                                        className="w-full justify-start gap-2 text-left"
-                                        size="sm"
-                                    >
-                                        <LogOut size={16} />
-                                        Logout
-                                    </Button>
-                                    <Button 
-                                        variant="ghost" 
+                                    <Button
+                                        variant="ghost"
                                         className="w-full justify-start gap-2 text-left"
                                         size="sm"
                                     >
                                         <Trash size={16} />
                                         Trash
                                     </Button>
+                                    <Button
+                                        variant="ghost"
+                                        className="w-full justify-start gap-2 text-left"
+                                        size="sm"
+                                    >
+                                        <LogOut size={16} />
+                                        Logout
+                                    </Button>
+
                                 </div>
                             </div>
                         </PopoverContent>

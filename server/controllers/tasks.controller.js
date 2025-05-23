@@ -1,10 +1,10 @@
-const {Task,STATUS} = require('../models/task.model')
+const { Task, STATUS } = require('../models/task.model');
 
+// Create new task
 const handleCreateTask = async (req, res) => {
     try {
         const { title, content, user } = req.body;
 
-        
         if (!title || !user) {
             return res.status(400).json({ message: "Title and user are required." });
         }
@@ -17,13 +17,13 @@ const handleCreateTask = async (req, res) => {
 
         const savedTask = await newTask.save();
         return res.status(201).json({ message: "Task created successfully", task: savedTask });
-
     } catch (error) {
         console.error("Error: ", error);
         return res.status(500).json({ message: "Server error" });
     }
 };
 
+// Update task content/title
 const handleUpdateTask = async (req, res) => {
     try {
         const title = req.body.title;
@@ -34,25 +34,23 @@ const handleUpdateTask = async (req, res) => {
         if (title !== undefined) updateFields.title = title;
         if (content !== undefined) updateFields.content = content;
 
-        // Find and update the task
         const updatedTask = await Task.findByIdAndUpdate(taskId, updateFields, {
-            new: true, 
+            new: true,
             runValidators: true,
         });
-
 
         if (!updatedTask) {
             return res.status(404).json({ message: "Task not found." });
         }
 
         return res.json({ message: "Task updated successfully", task: updatedTask });
-
     } catch (error) {
         console.error("Error: ", error);
         return res.status(500).json({ message: "Server error" });
     }
 };
 
+// Get single task by ID
 const getTaskById = async (req, res) => {
     try {
         const taskId = req.params.taskID;
@@ -69,6 +67,7 @@ const getTaskById = async (req, res) => {
     }
 };
 
+// Get all tasks by username
 const getTasksByUsername = async (req, res) => {
     const { username } = req.params;
     try {
@@ -80,9 +79,37 @@ const getTasksByUsername = async (req, res) => {
     }
 };
 
+// Toggle favorite status
+const toggleFavorite = async (req, res) => {
+    try {
+        const taskId = req.params.taskID;
+        const { favorite } = req.body;
+
+        if (typeof favorite !== "boolean") {
+            return res.status(400).json({ message: "Favorite must be a boolean." });
+        }
+
+        const updatedTask = await Task.findByIdAndUpdate(
+            taskId,
+            { favorite },
+            { new: true }
+        );
+
+        if (!updatedTask) {
+            return res.status(404).json({ message: "Task not found." });
+        }
+
+        return res.json({ message: "Favorite status updated", task: updatedTask });
+    } catch (error) {
+        console.error("Toggle favorite error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
 module.exports = {
     handleCreateTask,
     handleUpdateTask,
     getTaskById,
     getTasksByUsername,
+    toggleFavorite,
 };

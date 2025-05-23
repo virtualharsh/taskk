@@ -2,20 +2,20 @@ import { Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import {toast} from "sonner"
+import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 
 const Notes = () => {
     const API_URL = import.meta.env.VITE_API_URL;
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [dbTitle, setdbTitle] = useState("")
+    const [dbTitle, setdbTitle] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const contentRef = useRef(null);
+    const titleRef = useRef(null);
     const { taskID, username } = useParams();
-    const navigate = useNavigate()
-
+    const navigate = useNavigate();
 
     // Auto-resize the content textarea
     useEffect(() => {
@@ -25,6 +25,7 @@ const Notes = () => {
         }
     }, [content]);
 
+    // Fetch note data
     useEffect(() => {
         const fetchTask = async () => {
             try {
@@ -36,7 +37,7 @@ const Notes = () => {
             } catch (err) {
                 console.error("Error fetching task:", err);
                 toast.error("Failed to load note.");
-                navigate('/NotFound')
+                navigate("/NotFound");
             }
         };
 
@@ -45,6 +46,14 @@ const Notes = () => {
         }
     }, [taskID]);
 
+    // Focus the title field when the page load
+    useEffect(() => {
+        if (titleRef.current) {
+            titleRef.current.focus();
+        }
+    }, []);
+
+    // Save note handler
     const handleSave = async () => {
         try {
             setLoading(true);
@@ -54,14 +63,12 @@ const Notes = () => {
                 title: title || "Untitled",
                 content,
                 username,
-                taskID
+                taskID,
             };
 
-            const response = await axios.put(`${API_URL}/tasks/${taskID}`, payload);
+            await axios.put(`${API_URL}/tasks/${taskID}`, payload);
             setLoading(false);
             toast.success("Note updated successfully!");
-            
-
         } catch (err) {
             setLoading(false);
             setError("Failed to save note. Try again.");
@@ -79,6 +86,7 @@ const Notes = () => {
                     {/* Editable Title */}
                     <textarea
                         id="title"
+                        ref={titleRef} // focus on this
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Untitled"
