@@ -7,6 +7,7 @@ const staticRouter = require('./routes/static.router');
 const userRouter = require('./routes/user.router');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const taskRouter = require('./routes/task.router')
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +26,8 @@ app.use(cookieParser());
 app.use('/', staticRouter);
 app.use('/user', userRouter);
 app.use('/api/auth/', authRouter);
+app.use("/api/tasks/", taskRouter);
+
 
 (async()=>{
     await connectMongo(process.env.MONGODB_URI);

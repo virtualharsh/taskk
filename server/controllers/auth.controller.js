@@ -49,9 +49,6 @@ const checkExistingUserName = async (req, res) => {
     }
 };
 
-const generateOtp = () => {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-}
 
 const addUser = async (req, res) => {
     try {
@@ -70,8 +67,6 @@ const addUser = async (req, res) => {
         const newUser = new User({ email, username, password: hashedPassword, avatar: avatarURL });
 
         const result = await newUser.save();
-
-        console.log(result._id);
 
         await sendVerificationEmail(email, result._id);
 
