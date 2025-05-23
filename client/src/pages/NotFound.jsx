@@ -105,14 +105,7 @@ export default function NotFound() {
 
                             {/* Action buttons */}
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                <Button
-                                    onClick={handleGoBack}
-                                    variant="outline"
-                                    className="cursor-pointer group px-6 py-2 transition-all duration-200 border bg-gray-950 text-white border-gray-800 hover:bg-gray-900"
-                                >
-                                    <ArrowLeft size={16} className="mr-2 transition-transform duration-200 group-hover:-translate-x-1" />
-                                    Go Back
-                                </Button>
+                                
                                 <Button
                                     onClick={handleGoHome}
                                     className="cursor-pointer group px-6 py-2 transition-all duration-200 bg-white text-black hover:bg-gray-100"

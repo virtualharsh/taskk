@@ -1,14 +1,27 @@
 import { SquarePen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
-
+import axios from "axios";
 
 const UserHome = () => {
+    const API_URL = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
     const { username } = useParams();
 
-    const handleCreateNote = () => {
-        navigate(`/user/${username}/new`);
+    const handleCreateNote = async () => {
+        try {
+            const response = await axios.post(`${API_URL}/tasks`, {
+                title: "Untitled Note",
+                content: "",
+                user: username,
+            });
+
+            const task = response.data.task;
+            navigate(`/user/${username}/${task._id}`);
+        } catch (error) {
+            console.error("Failed to create task:", error);
+            // Optionally show an error notification
+        }
     };
 
     return (

@@ -23,7 +23,7 @@ export const routes = [
             { path: 'notifications', element: <Notifications /> },
             { path: 'settings', element: <Settings /> },
             { path: 'search', element: <Search /> },
-            { path: 'new', element: <Notes /> }, // 🔥 new route added here
+            { path: ':taskID', element: <Notes /> }, // 🔥 new route added here
         ]
     },
     { path: '*', element: <NotFound /> }
