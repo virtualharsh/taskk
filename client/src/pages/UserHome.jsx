@@ -163,18 +163,21 @@ const UserHome = () => {
                                 {tasks.slice(0, 3).map((task) => (
                                     <Card
                                         key={task._id}
-                                        className="cursor-pointer hover:shadow-md hover:scale-[1.02] transition-all duration-200 h-[120px] flex flex-col"
+                                        className="cursor-pointer hover:shadow-md hover:scale-[1.02] transition-all duration-200 h-[120px] flex flex-col overflow-hidden"
                                         onClick={() => navigate(`/user/${username}/${task._id}`)}
                                     >
-                                        <CardHeader className="pb-2 flex-1 flex flex-col justify-center">
-                                            <CardTitle className="truncate text-sm sm:text-base mb-1">
+                                        <div className="px-4 py-2 flex-1 flex flex-col justify-center overflow-hidden">
+                                            <CardTitle className="truncate text-sm sm:text-base mb-1 ">
                                                 {task.title || "Untitled"}
                                             </CardTitle>
-                                            <CardDescription className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 line-clamp-2 flex-1">
+                                            <CardDescription className="truncate text-xs sm:text-sm text-gray-500 dark:text-gray-400 overflow-hidden">
                                                 {task.content || "No content"}
                                             </CardDescription>
-                                        </CardHeader>
+                                        </div>
                                     </Card>
+
+
+
                                 ))}
 
                                 {/* Create New Note Card */}
