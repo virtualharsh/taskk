@@ -186,4 +186,14 @@ input:-webkit-autofill {
 }
 
 .pulse {
-    animation: pulse 350ms ease-in-out; }
+    animation: pulse 350ms ease-in-out;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}

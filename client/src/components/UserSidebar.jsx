@@ -11,8 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Home, Bell, Search, Settings, SquareCheckBig, LogOut, Trash } from "lucide-react";
 import { useIsMobile } from "../hooks/use-mobile";
-import useAuth from "../hooks/useAuth";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import ModeToggle from "@/components/mode-toggle";
 import {
     Avatar,
@@ -25,8 +24,6 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button"
-// import { Input } from "@/components/ui/input"
-// import { Label } from "@/components/ui/label"
 
 
 
@@ -36,6 +33,12 @@ const UserSidebar = () => {
     const localData = JSON.parse(localStorage.getItem('authToken'));
     const { avatar, user } = localData;
     const location = useLocation();
+    const navigate = useNavigate();
+
+    const handleLogout = () =>{
+        localStorage.removeItem('authToken')
+        navigate('/login');
+    }
 
     const items = [
         {
@@ -129,6 +132,7 @@ const UserSidebar = () => {
                                         variant="ghost"
                                         className="w-full justify-start gap-2 text-left"
                                         size="sm"
+                                        onClick={handleLogout}
                                     >
                                         <LogOut size={16} />
                                         Logout
@@ -170,7 +174,7 @@ const UserSidebar = () => {
                             ))}
                         </div>
                     </div>
-                    <div className="fixed top-0 left-0 p-4 md:p-6 z-30">
+                    <div className="fixed top-0 left-0 p-4 md:p-6 z-30 w-full bg-white dark:bg-zinc-950">
                         <Link to={`/user/${username}`} className="flex items-center gap-2 font-medium pt-1 text-black dark:text-white text-2xl md:text-3xl">
                             <SquareCheckBig size={20} />
                             <span>Taskk</span>

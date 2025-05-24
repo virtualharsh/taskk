@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import TaskCard from "../components/TaskCard";
 
 const UserHome = () => {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -14,7 +15,7 @@ const UserHome = () => {
 
     useEffect(() => {
         fetchTasks();
-    }, [API_URL, username]);
+    }, [username]);
 
     const fetchTasks = async () => {
         try {
@@ -130,73 +131,67 @@ const UserHome = () => {
         ) : (
             <div className="space-y-3">
                 {taskList.map((task) => (
-                    <div
+                    <TaskCard
                         key={task._id}
-                        className="relative p-3 sm:p-4 bg-white dark:bg-zinc-900 border rounded-lg shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group"
-                        onClick={() => navigate(`/user/${username}/${task._id}`)}
-                    >
-                        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex items-center gap-1 z-10">
-                            
-                            
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-8 w-8 p-0 text-gray-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-yellow-400 hover:scale-110 transition-all duration-200"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    toggleFavorite(task._id, task.favorite);
-                                }}
-                            >
-                                {task.favorite ? (
-                                    <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                ) : (
-                                    <StarOff className="w-4 h-4 opacity-60 text-yellow-500" />
-                                )}
-                            </Button>
-
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-8 w-8 p-0 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950 transition-all duration-200"
-                                onClick={(e) => handleDeleteTask(task._id, e)}
-                            >
-                                <Trash className="w-4 h-4" />
-                            </Button>
-                        </div>
-
-                        <div className="pr-16">
-                            <h3 className="font-medium text-sm sm:text-base truncate mb-1">
-                                {task.title || "Untitled"}
-                            </h3>
-                            <p className="text-xs sm:text-sm text-zinc-500 line-clamp-2">
-                                {task.content || "No content"}
-                            </p>
-                        </div>
-                    </div>
+                        task={task}
+                        onToggleFavorite={toggleFavorite}
+                        onDelete={handleDeleteTask}
+                    />
                 ))}
             </div>
         );
+    
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-zinc-950">
-            <style jsx>{`
-                .hide-scrollbar {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-                .hide-scrollbar::-webkit-scrollbar {
-                    display: none;
-                }
-            `}</style>
-            
+        <div className="min-h-screen bg-white dark:bg-zinc-950">
+
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 lg:pt-6 pb-20 md:pb-24">
                 <div className="space-y-6 md:space-y-8">
-                    {/* Header */}
-                    <div className="mb-6 md:mb-8">
-                        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
-                            My Notes
-                        </h1>
-                    </div>
+                    
+                    {/* Recently Viewed Tasks */}
+                    <section>
+                        <div className="mb-6">
+                            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+                                Recently Viewed
+                            </h2>
+                            <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base mb-4">
+                                Quick access to your recent notes
+                            </p>
+
+                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                                {/* Render up to 3 recent tasks */}
+                                {tasks.slice(0, 3).map((task) => (
+                                    <Card
+                                        key={task._id}
+                                        className="cursor-pointer hover:shadow-md hover:scale-[1.02] transition-all duration-200"
+                                        onClick={() => navigate(`/user/${username}/${task._id}`)}
+                                    >
+                                        <CardHeader className="pb-2">
+                                            <CardTitle className="truncate text-sm sm:text-base">
+                                                {task.title || "Untitled"}
+                                            </CardTitle>
+                                            <CardDescription className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                                                {task.content || "No content"}
+                                            </CardDescription>
+                                        </CardHeader>
+                                    </Card>
+                                ))}
+
+                                {/* Create New Note Card */}
+                                <Card
+                                    onClick={() => handleCreateNote()}
+                                    className="flex items-center justify-center cursor-pointer border-2 border-dashed hover:border-gray-400 hover:shadow-sm transition-all duration-200 min-h-[100px] sm:min-h-[120px] group"
+                                >
+                                    <div className="flex flex-col items-center justify-center text-center space-y-2 p-4">
+                                        <SquarePen className="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:scale-110 transition-transform" />
+                                        <p className="text-sm text-gray-700 dark:text-gray-200 font-medium">
+                                            New Note
+                                        </p>
+                                    </div>
+                                </Card>
+                            </div>
+                        </div>
+                    </section>
 
                     {/* Three Column Layout - Fixed Height */}
                     <section>
@@ -205,7 +200,7 @@ const UserHome = () => {
                             <Card className="flex flex-col">
                                 <CardHeader className="pb-3 flex-shrink-0 border-b">
                                     <CardTitle className="flex items-center gap-2 text-base md:text-lg">
-                                        <Users className="w-4 h-4 md:w-5 md:h-5 text-blue-500" />
+                                        <Users className="w-4 h-4 md:w-5 md:h-5 " />
                                         Shared
                                     </CardTitle>
                                     <CardDescription className="text-sm">
@@ -213,7 +208,7 @@ const UserHome = () => {
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="pt-4 flex-grow">
-                                    <div className="h-80 sm:h-96 overflow-y-auto overflow-x-hidden hover:shadow-inner transition-shadow duration-200 hide-scrollbar">
+                                    <div className="h-80 sm:h-96 overflow-y-auto overflow-x-hidden duration-200 hide-scrollbar">
                                         {renderTasks(sharedTasks, "No shared notes yet")}
                                     </div>
                                 </CardContent>
@@ -223,7 +218,7 @@ const UserHome = () => {
                             <Card className="flex flex-col">
                                 <CardHeader className="pb-3 flex-shrink-0 border-b">
                                     <CardTitle className="flex items-center gap-2 text-base md:text-lg">
-                                        <Lock className="w-4 h-4 md:w-5 md:h-5 text-green-500" />
+                                        <Lock className="w-4 h-4 md:w-5 md:h-5 " />
                                         Private
                                     </CardTitle>
                                     <CardDescription className="text-sm">
@@ -231,7 +226,7 @@ const UserHome = () => {
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="pt-4 flex-grow">
-                                    <div className="h-80 sm:h-96 overflow-y-auto overflow-x-hidden hover:shadow-inner transition-shadow duration-200 hide-scrollbar">
+                                    <div className="h-80 sm:h-96 overflow-y-auto overflow-x-hidden hide-scrollbar">
                                         {renderTasks(privateTasks, "No private notes yet")}
                                     </div>
                                 </CardContent>
@@ -241,7 +236,7 @@ const UserHome = () => {
                             <Card className="flex flex-col">
                                 <CardHeader className="pb-3 flex-shrink-0 border-b">
                                     <CardTitle className="flex items-center gap-2 text-base md:text-lg">
-                                        <Star className="w-4 h-4 md:w-5 md:h-5 text-yellow-500 fill-yellow-500" />
+                                        <Star className="w-4 h-4 md:w-5 md:h-5 " />
                                         Favorites
                                     </CardTitle>
                                     <CardDescription className="text-sm">
@@ -249,7 +244,7 @@ const UserHome = () => {
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="pt-4 flex-grow">
-                                    <div className="h-80 sm:h-96 overflow-y-auto overflow-x-hidden hover:shadow-inner transition-shadow duration-200 hide-scrollbar">
+                                    <div className="h-80 sm:h-96 overflow-y-auto overflow-x-hidden duration-200 hide-scrollbar">
                                         {renderTasks(favoriteTasks, "No favorite notes yet")}
                                     </div>
                                 </CardContent>
@@ -261,7 +256,7 @@ const UserHome = () => {
                     <section>
                         <div className="mb-6">
                             <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-white mb-2">
-                                📋 Quick Start Templates
+                                Quick Start Templates
                             </h2>
                             <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
                                 Get started quickly with pre-made templates
@@ -275,12 +270,11 @@ const UserHome = () => {
                                     <Card
                                         key={template.id}
                                         className="cursor-pointer hover:shadow-lg hover:scale-105 transition-all duration-200 border-2 hover:border-gray-300 dark:hover:border-gray-700"
-                                        onClick={() => handleCreateNote(template.title, template.content)}
                                     >
                                         <CardHeader className="pb-3">
                                             <CardTitle className="flex items-center gap-3 text-sm sm:text-base">
-                                                <div className="p-2 bg-blue-50 dark:bg-blue-950 rounded-lg">
-                                                    <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 flex-shrink-0" />
+                                                <div className="p-2 rounded-lg">
+                                                    <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                                                 </div>
                                                 <span className="truncate font-semibold">{template.title}</span>
                                             </CardTitle>
@@ -297,13 +291,13 @@ const UserHome = () => {
             </div>
 
             {/* Floating Action Button */}
-            <div className="fixed bottom-6 right-4 md:right-6 z-50">
+            <div className="fixed bottom-6 right-4 md:right-6 pb-20 pr-5 md:pb-0 z-50">
                 <Button
                     onClick={() => handleCreateNote()}
                     className="bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 dark:text-black text-white w-12 h-12 sm:w-14 sm:h-14 p-0 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110"
                     size="icon"
                 >
-                    <SquarePen className="w-5 h-5 sm:w-6 sm:h-6" />
+                    <SquarePen className="w-6 h-6 sm:w-8 sm:h-8" />
                 </Button>
             </div>
         </div>
