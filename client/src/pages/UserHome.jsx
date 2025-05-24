@@ -140,14 +140,14 @@ const UserHome = () => {
                 ))}
             </div>
         );
-    
+
 
     return (
         <div className="min-h-screen bg-white dark:bg-zinc-950">
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 md:pt-20 lg:pt-6 pb-20 md:pb-24">
                 <div className="space-y-6 md:space-y-8">
-                    
+
                     {/* Recently Viewed Tasks */}
                     <section>
                         <div className="mb-6">
@@ -163,14 +163,14 @@ const UserHome = () => {
                                 {tasks.slice(0, 3).map((task) => (
                                     <Card
                                         key={task._id}
-                                        className="cursor-pointer hover:shadow-md hover:scale-[1.02] transition-all duration-200"
+                                        className="cursor-pointer hover:shadow-md hover:scale-[1.02] transition-all duration-200 h-[120px] flex flex-col"
                                         onClick={() => navigate(`/user/${username}/${task._id}`)}
                                     >
-                                        <CardHeader className="pb-2">
-                                            <CardTitle className="truncate text-sm sm:text-base">
+                                        <CardHeader className="pb-2 flex-1 flex flex-col justify-center">
+                                            <CardTitle className="truncate text-sm sm:text-base mb-1">
                                                 {task.title || "Untitled"}
                                             </CardTitle>
-                                            <CardDescription className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                                            <CardDescription className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 line-clamp-2 flex-1">
                                                 {task.content || "No content"}
                                             </CardDescription>
                                         </CardHeader>
@@ -180,7 +180,7 @@ const UserHome = () => {
                                 {/* Create New Note Card */}
                                 <Card
                                     onClick={() => handleCreateNote()}
-                                    className="flex items-center justify-center cursor-pointer border-2 border-dashed hover:border-gray-400 hover:shadow-sm transition-all duration-200 min-h-[100px] sm:min-h-[120px] group"
+                                    className="flex items-center justify-center cursor-pointer border-2 border-dashed hover:border-gray-400 hover:shadow-sm transition-all duration-200 h-[120px] group"
                                 >
                                     <div className="flex flex-col items-center justify-center text-center space-y-2 p-4">
                                         <SquarePen className="w-6 h-6 text-gray-600 dark:text-gray-300 group-hover:scale-110 transition-transform" />
