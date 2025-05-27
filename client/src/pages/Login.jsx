@@ -15,33 +15,43 @@ const Login = () => {
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate(); // to redirect after login
+    const [isLoading, setIsLoading] = useState(false);
+    const [showWaitMessage, setShowWaitMessage] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+        setShowWaitMessage(false);
+
+        const waitMessageTimeout = setTimeout(() => {
+            setShowWaitMessage(true);
+        }, 2000); // 2 seconds
 
         try {
-            // If verified, attempt login
             const loginRes = await axios.post(`${API_URL}/auth/login`, {
                 email,
                 password,
             }, { withCredentials: true });
-            toast.success("Login Successful; Welcome to Taskk");              
-            localStorage.setItem("authToken", JSON.stringify({ avatar: loginRes.data.avatar, user: loginRes.data.username, token : loginRes.data.token }));
 
-            navigate(`/user/${loginRes.data.username}`)
-            
+            clearTimeout(waitMessageTimeout);
+            toast.success("Login Successful; Welcome to Taskk");
+            localStorage.setItem("authToken", JSON.stringify({ avatar: loginRes.data.avatar, user: loginRes.data.username, token: loginRes.data.token }));
+            navigate(`/user/${loginRes.data.username}`);
         } catch (err) {
+            clearTimeout(waitMessageTimeout);
             toast.error(err?.response?.data?.message);
+        } finally {
+            setIsLoading(false);
+            setShowWaitMessage(false);
         }
     };
-
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem('authToken')) || null
         if (token) {
             const username = token?.user;
             navigate(`/user/${username}`)
         }
-    }, []);
+    }, );
 
     return (
         <div className="min-h-screen w-full relative bg-white dark:bg-black text-black dark:text-white transition-colors">
@@ -112,10 +122,17 @@ const Login = () => {
 
                                 <Button
                                     type="submit"
-                                    className='w-full'
+                                    className="w-full"
+                                    disabled={isLoading}
                                 >
-                                    Login
+                                    {isLoading ? "Logging in..." : "Login"}
                                 </Button>
+
+                                {showWaitMessage && (
+                                    <p className="text-xs text-center text-gray-500 mt-2">
+                                        Please wait while we fetch your data...
+                                    </p>
+                                )}
 
 
                                 <div className="text-center text-sm text-gray-700 dark:text-gray-300 mt-2">
