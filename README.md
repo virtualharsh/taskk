@@ -117,5 +117,4 @@ VITE_SERVER= BACKEND_URL
 ---
 
 <br>
-<p align="center"> <b>Crafted with care 💝</b><br> 
-<a href="https://github.com/virtualharsh/taskk">⭐ Star </a>this repo if you like it! </p>
+<p align="center"> <b>Crafted with care 💝 by <a href="https://github.com/virtualharsh/">Harsh</a> & <a href="https://github.com/virtualharsh/">Jay</a> </b ></p><br> 
