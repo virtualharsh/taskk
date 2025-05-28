@@ -101,6 +101,21 @@ VITE_SERVER= BACKEND_URL
 - 🔄 Reusable UI: shadcn/ui components are customized for reuse
 - 🚫 Ignored Files: .gitignore used to exclude node_modules, .env, etc.
 
-<br><br>
+---
+## 📸 Screenshots
+
+### 🏠 Landing Page
+<p align="center"> <img src="./assets/landing.png" width="700" alt="Landing Page - Dark" /> <br> <img src="./assets/landing light.png" width="700" alt="Landing Page - Light" /> </p>
+
+### 🔐 Login / Signup
+<p align="center"><img src="./assets/signup light.png" width="700" alt="Signup - Light" /><br> <img src="./assets/login dark.png" width="700" alt="Login - Dark" />   </p>
+
+### 🏠 Home Page
+<p align="center"> <img src="./assets/home.png" width="700" alt="Home - Dark" /> <br>  <img src="./assets/home light.png" width="700" alt="Home - Light" /> </p>
+
+
+---
+
+<br>
 <p align="center"> <b>Crafted with care 💝</b><br> 
-<a href="https://github.com/virtualharsh/taskk">⭐ Star this repo</a> if you like it! </p>
+<a href="https://github.com/virtualharsh/taskk">⭐ Star </a>this repo if you like it! </p>
