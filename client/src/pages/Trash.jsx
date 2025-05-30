@@ -38,7 +38,7 @@ const TrashPage = () => {
 
     const handlePermanentDelete = async (taskId) => {
         try {
-            await axios.delete(`${API_URL}/tasks/${taskId}`);
+            await axios.put(`${API_URL}/tasks/${taskId}/delete`);
             setTrashedTasks((prev) => prev.filter((task) => task._id !== taskId));
             toast.success("Permanently deleted");
         } catch (error) {

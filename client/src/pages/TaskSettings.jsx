@@ -9,7 +9,6 @@ const TaskSettings = () => {
     const API_URL = import.meta.env.VITE_API_URL;
     const { taskID, username } = useParams();
     const navigate = useNavigate();
-    const location = useLocation();
     const [task, setTask] = useState({});
 
     // Fetch task data
@@ -52,7 +51,7 @@ const TaskSettings = () => {
 
     const deleteTask = async () => {
         try {
-            const response = await axios.put(`${API_URL}/tasks/${task._id}/delete`);
+            const response = await axios.delete(`${API_URL}/tasks/${task._id}`);
             setTask({})
             toast.success(response.data.message);
             navigate(`/user/${username}`)

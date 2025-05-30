@@ -71,7 +71,7 @@ const getTaskById = async (req, res) => {
 const getTasksByUsername = async (req, res) => {
     const { username } = req.params;
     try {
-        const tasks = await Task.find({ user: username, status: 1 }).sort({ updatedAt: -1 });
+        const tasks = await Task.find({ user: username, status: 1 }).sort({ updatedAt: -1 });        
         res.json({ tasks });
     } catch (error) {
         console.error("Error fetching tasks:", error);
@@ -157,8 +157,8 @@ const deleteTask = async (req, res) => {
 
 const restoreTask = async (req, res) => {
     try {
-        const { id } = req.params;
-        const task = await Task.findByIdAndUpdate(id, { status: 1 }, { new: true });
+        const { taskID } = req.params;
+        const task = await Task.findByIdAndUpdate(taskID, { status: 1 }, { new: true });
         res.json({ task });
     } catch (error) {
         res.status(500).json({ message: "Restore failed" });
@@ -167,8 +167,8 @@ const restoreTask = async (req, res) => {
 
 const deleteTaskPermanently = async (req, res) => {
     try {
-        const { id } = req.params;
-        const task = await Task.findByIdAndUpdate(id, { status: -1 }, { new: true });
+        const { taskID } = req.params;        
+        const task = await Task.findByIdAndUpdate(taskID, { status: -1 }, { new: true });
         res.json({ message: "Deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: "Delete failed" });
@@ -180,7 +180,7 @@ const deleteTaskPermanently = async (req, res) => {
 const getTrashedTasks = async (req, res) => {
     const { username } = req.params;
     try {
-        const tasks = await Task.find({ user: username, status: 0 }).sort({ updatedAt: -1 });
+        const tasks = await Task.find({ user: username, status: 0 }).sort({ updatedAt: -1 });        
         res.json({ tasks });
     } catch (error) {
         res.status(500).json({ message: "Failed to fetch trashed tasks" });

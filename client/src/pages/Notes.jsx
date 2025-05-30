@@ -124,9 +124,7 @@ const Notes = () => {
                     className="bg-black dark:bg-white dark:text-black text-white w-12 h-12 md:w-14 md:h-14 p-0 rounded-full"
                     aria-label="Settings"
                     onClick={() =>
-                        navigate(`/user/${username}/${taskID}/settings`, {
-                            state: { task },
-                        })
+                        navigate(`/user/${username}/${taskID}/settings`)
                     }
                 >
                     <Settings className="w-10 h-10 md:w-12 md:h-12" />
