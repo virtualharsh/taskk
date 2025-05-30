@@ -7,9 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const Notes = () => {
     const API_URL = import.meta.env.VITE_API_URL;
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [dbTitle, setdbTitle] = useState("");
+    const [task, setTask] = useState({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const contentRef = useRef(null);
@@ -23,17 +21,14 @@ const Notes = () => {
             contentRef.current.style.height = "auto";
             contentRef.current.style.height = contentRef.current.scrollHeight + "px";
         }
-    }, [content]);
+    }, [task.content]);
 
-    // Fetch note data
+    // Fetch task data
     useEffect(() => {
         const fetchTask = async () => {
             try {
                 const response = await axios.get(`${API_URL}/tasks/${taskID}`);
-                const task = response.data.task;
-                setTitle(task.title);
-                setdbTitle(task.title);
-                setContent(task.content);
+                setTask(response.data.task);
             } catch (err) {
                 console.error("Error fetching task:", err);
                 toast.error("Failed to load note.");
@@ -46,33 +41,36 @@ const Notes = () => {
         }
     }, [taskID]);
 
-    // Focus the title field when the page load
+    // Focus title on mount
     useEffect(() => {
-        if (titleRef.current) {
-            titleRef.current.focus();
-        }
+        titleRef.current?.focus();
     }, []);
 
-    // Save note handler
+    // Update task content
+    const handleChange = (key, value) => {
+        setTask((prev) => ({ ...prev, [key]: value }));
+    };
+
+    // Save task
     const handleSave = async () => {
         try {
             setLoading(true);
             setError(null);
 
             const payload = {
-                title: title || "Untitled",
-                content,
+                ...task,
+                title: task.title || "Untitled",
                 username,
                 taskID,
             };
 
             await axios.put(`${API_URL}/tasks/${taskID}`, payload);
-            setLoading(false);
             toast.success("Note updated successfully!");
         } catch (err) {
-            setLoading(false);
-            setError("Failed to save note. Try again.");
             console.error("Save error:", err);
+            setError("Failed to save note. Try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -80,15 +78,16 @@ const Notes = () => {
         <>
             <div className="p-3 mt-10 md:p-0 md:py-2 md:mt-0">
                 <div className="hidden md:flex">
-                    <h1 className="text-xl mb-4 text-zinc-500">{dbTitle}</h1>
+                    <h1 className="text-xl mb-4 text-zinc-500">{task.title}</h1>
                 </div>
+
                 <div className="flex flex-col gap-4 px-4 py-12 md:px-10 max-w-3xl md:mx-auto">
                     {/* Editable Title */}
                     <textarea
                         id="title"
-                        ref={titleRef} // focus on this
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                        ref={titleRef}
+                        value={task.title || ""}
+                        onChange={(e) => handleChange("title", e.target.value)}
                         placeholder="Untitled"
                         className="w-full text-3xl font-semibold outline-none bg-transparent text-foreground resize-none overflow-hidden"
                         style={{ height: "40px", border: "none", padding: "0px" }}
@@ -99,8 +98,8 @@ const Notes = () => {
                     <textarea
                         id="taskbody"
                         ref={contentRef}
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
+                        value={task.content || ""}
+                        onChange={(e) => handleChange("content", e.target.value)}
                         placeholder="Start writing your note..."
                         className="w-full min-h-32 text-base leading-7 text-foreground outline-none bg-transparent resize-none overflow-hidden"
                         style={{ border: "none", padding: "0px" }}
@@ -119,10 +118,16 @@ const Notes = () => {
                 </div>
             </div>
 
+            {/* Settings Floating Button */}
             <div className="fixed bottom-0 right-0 pr-6 pb-24 lg:pb-10">
                 <Button
                     className="bg-black dark:bg-white dark:text-black text-white w-12 h-12 md:w-14 md:h-14 p-0 rounded-full"
                     aria-label="Settings"
+                    onClick={() =>
+                        navigate(`/user/${username}/${taskID}/settings`, {
+                            state: { task },
+                        })
+                    }
                 >
                     <Settings className="w-10 h-10 md:w-12 md:h-12" />
                 </Button>

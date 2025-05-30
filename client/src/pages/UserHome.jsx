@@ -60,10 +60,12 @@ const UserHome = () => {
         }
     };
 
+    
+
     const handleDeleteTask = async (taskId, e) => {
         e.stopPropagation();
         try {
-            await axios.delete(`${API_URL}/tasks/${taskId}`);
+            await axios.put(`${API_URL}/tasks/${taskId}/delete`);
             setTasks((prev) => prev.filter((task) => task._id !== taskId));
             toast.success("Note deleted successfully");
         } catch (error) {
@@ -74,8 +76,11 @@ const UserHome = () => {
 
     // Categorize tasks
     const favoriteTasks = tasks.filter((task) => task.favorite);
-    const sharedTasks = []; // Empty for now, will implement later
-    const privateTasks = tasks.filter((task) => !task.favorite);
+    const sharedTasks = tasks.filter((task) => task.isPublic ); // Empty for now, will implement later
+    const privateTasks = tasks.filter((task) => !task.favorite && !task.isPublic);
+
+    console.log(tasks);
+    
 
     // Task templates
     const taskTemplates = [

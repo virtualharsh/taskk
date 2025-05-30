@@ -10,9 +10,9 @@ const taskSchema = new mongoose.Schema(
     {
         title: { type: String, required: true },
         content: { type: String },
-        user: { type: String, required: true }, // creator's ID or username
+        user: { type: String, required: true }, 
 
-        collaborators: [{ type: String, default:[]}] ,
+        collaborators: [{ type: String, default: [] }],
 
         status: {
             type: Number,
@@ -21,10 +21,14 @@ const taskSchema = new mongoose.Schema(
             required: true
         },
 
-        favorite:{
-            type:Boolean,
-            default:false,
-        }
+        favorite: {
+            type: Boolean,
+            default: false,
+        },
+        isPublic: {
+            type: Boolean,
+            default: false,
+        },
     },
     { timestamps: true }
 );

@@ -8,6 +8,9 @@ import Settings from "./pages/Settings";
 import Search from "./pages/Search";
 import UserHome from "./pages/UserHome";
 import Notes from "./pages/Notes";
+import TaskSettings from "./pages/TaskSettings";
+import Trash  from "./pages/Trash";
+
 
 
 export const routes = [
@@ -23,7 +26,9 @@ export const routes = [
             { path: 'notifications', element: <Notifications /> },
             { path: 'settings', element: <Settings /> },
             { path: 'search', element: <Search /> },
-            { path: ':taskID', element: <Notes /> }, // 🔥 new route added here
+            { path: 'trash', element: <Trash /> },
+            { path: ':taskID', element: <Notes /> }, 
+            { path: ':taskID/settings', element: <TaskSettings /> }, 
         ]
     },
     { path: '*', element: <NotFound /> }

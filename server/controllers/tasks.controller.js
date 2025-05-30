@@ -67,17 +67,18 @@ const getTaskById = async (req, res) => {
     }
 };
 
-// Get all tasks by username
+// Get all tasks by username with status 1
 const getTasksByUsername = async (req, res) => {
     const { username } = req.params;
     try {
-        const tasks = await Task.find({ user: username }).sort({ updatedAt: -1 });
+        const tasks = await Task.find({ user: username, status: 1 }).sort({ updatedAt: -1 });
         res.json({ tasks });
     } catch (error) {
         console.error("Error fetching tasks:", error);
         res.status(500).json({ message: 'Failed to fetch tasks' });
     }
 };
+
 
 // Toggle favorite status
 const toggleFavorite = async (req, res) => {
@@ -106,10 +107,96 @@ const toggleFavorite = async (req, res) => {
     }
 };
 
+const toggleShared = async (req, res) => {
+    try {
+        const taskId = req.params.taskID;
+        const { isShared } = req.body;
+
+        if (typeof isShared !== "boolean") {
+            return res.status(400).json({ message: "isShared must be a boolean." });
+        }
+
+        const updatedTask = await Task.findByIdAndUpdate(
+            taskId,
+            { isPublic: isShared },
+            { new: true }
+        );
+
+        if (!updatedTask) {
+            return res.status(404).json({ message: "Task not found." });
+        }
+
+        return res.json({ message: "Share status updated", task: updatedTask });
+    } catch (error) {
+        console.error("Share error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+
+const deleteTask = async (req, res) => {
+    try {
+        const { taskID } = req.params;
+
+        const updatedTask = await Task.findOneAndUpdate(
+            { _id: taskID },
+            { status: STATUS.TRASHED },
+            { new: true }
+        );
+
+        if (!updatedTask) {
+            return res.status(404).json({ message: "Task not found or unauthorized." });
+        }
+
+        return res.json({ message: "Task moved to trash.", task: updatedTask });
+    } catch (error) {
+        console.error("Delete task error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+const restoreTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const task = await Task.findByIdAndUpdate(id, { status: 1 }, { new: true });
+        res.json({ task });
+    } catch (error) {
+        res.status(500).json({ message: "Restore failed" });
+    }
+};
+
+const deleteTaskPermanently = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const task = await Task.findByIdAndUpdate(id, { status: -1 }, { new: true });
+        res.json({ message: "Deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Delete failed" });
+    }
+};
+
+
+// GET /tasks/user/:username/trash
+const getTrashedTasks = async (req, res) => {
+    const { username } = req.params;
+    try {
+        const tasks = await Task.find({ user: username, status: 0 }).sort({ updatedAt: -1 });
+        res.json({ tasks });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch trashed tasks" });
+    }
+};
+
+
 module.exports = {
     handleCreateTask,
     handleUpdateTask,
     getTaskById,
     getTasksByUsername,
     toggleFavorite,
+    toggleShared,
+    deleteTask,
+    getTrashedTasks,
+    restoreTask,
+    deleteTaskPermanently,
 };

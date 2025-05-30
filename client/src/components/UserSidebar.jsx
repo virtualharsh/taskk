@@ -124,6 +124,7 @@ const UserSidebar = () => {
                                         variant="ghost"
                                         className="w-full justify-start gap-2 text-left"
                                         size="sm"
+                                        onClick={()=>{navigate(`/user/${username}/trash`)}}
                                     >
                                         <Trash size={16} />
                                         Trash
