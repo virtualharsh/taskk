@@ -41,10 +41,35 @@ const Notes = () => {
         }
     }, [taskID]);
 
-    // Focus title on mount
+    // Focus and select title only once on mount
     useEffect(() => {
-        titleRef.current?.focus();
-    }, []);
+        if (titleRef.current) {
+            titleRef.current.focus();
+            // Use setTimeout to ensure the DOM is fully updated
+            setTimeout(() => {
+                if (titleRef.current) {
+                    titleRef.current.select();
+                }
+            }, 100);
+        }
+    }, []); // Empty dependency array - runs only once on mount
+
+    // Add Ctrl+S save functionality
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.ctrlKey && event.key === 's') {
+                event.preventDefault(); // Prevent browser's default save dialog
+                handleSave();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        // Cleanup event listener on component unmount
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [task]); // Include task as dependency so handleSave has access to current task data
 
     // Update task content
     const handleChange = (key, value) => {
