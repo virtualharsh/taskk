@@ -1,13 +1,16 @@
 import axios from "axios";
 import { toast } from "sonner";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Button, } from "@/components/ui/button";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Lock, Copy, Eye, EyeOff } from "lucide-react";
 
 const TaskSettings = () => {
     const API_URL = import.meta.env.VITE_API_URL;
+    const CLIENT = import.meta.env.VITE_CLIENT;
     const { taskID, username } = useParams();
+    const [copied, setCopied] = useState(false);
     const navigate = useNavigate();
     const [task, setTask] = useState({});
 
@@ -67,6 +70,50 @@ const TaskSettings = () => {
             <div className="hidden md:flex">
                 <h1 className="text-xl mb-4 text-zinc-500">{task.title}'s Settings</h1>
             </div>
+            
+            {/* Share Settings */}
+            <div className="flex flex-col gap-3 px-6 py-6 md:px-10 max-w-3xl md:mx-auto">
+                <h2 className="text-lg font-semibold">Sharing</h2>
+                <div className="border rounded-lg divide-y overflow-hidden">
+
+                    {/* Share Task Link */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between p-4">
+                        <div>
+                            <h3 className="font-medium">Share this task</h3>
+                            <p className="text-sm text-muted-foreground">
+                                {task.isPublic
+                                    ? "Anyone with this link can view the task."
+                                    : "Make this task public to share it with the world."}
+                            </p>
+                        </div>
+                        {task.isPublic ? (
+                            <Button
+                                variant="outline"
+                                className="mt-4 md:mt-0"
+                                onClick={() => {
+                                    const shareURL = `${CLIENT}/task/${task._id}/view`;
+                                    navigator.clipboard.writeText(shareURL);
+                                    setCopied(true);
+                                    setTimeout(() => setCopied(false), 1500); // Reset after 2s
+                                }}
+                            >
+                                <Copy className="w-4 h-4 mr-2" />
+                                {copied ? "Copied" : "Copy Link"}
+                            </Button>
+                        ) : (
+                            <Button
+                                variant="outline"
+                                className="mt-4 md:mt-0 opacity-50 cursor-not-allowed"
+                                disabled
+                            >
+                                <Lock className="w-4 h-4 mr-2" />
+                                Private Task
+                            </Button>
+                        )}
+                    </div>
+                </div>
+            </div>
+
 
             {/* Danger Zone */}
             <div className="flex flex-col gap-3 px-4 py-12 md:px-10 max-w-3xl md:mx-auto">
@@ -86,7 +133,17 @@ const TaskSettings = () => {
                             className="mt-4 md:mt-0"
                             onClick={switchVisibility}
                         >
-                            Change to {(task.isPublic ? "private" : "public")}
+                            {task.isPublic ? (
+                                <>
+                                    <EyeOff className="w-4 h-4 mr-2" />
+                                    Make Private
+                                </>
+                            ) : (
+                                <>
+                                    <Eye className="w-4 h-4 mr-2" />
+                                    Make Public
+                                </>
+                            )}
                         </Button>
                     </div>
 

@@ -187,6 +187,33 @@ const getTrashedTasks = async (req, res) => {
     }
 };
 
+const getPublicTaskById = async (req, res) => {
+    const { taskID } = req.params;
+
+    try {
+        const task = await Task.findById(taskID).select("title content isPublic status");
+
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" });
+        }
+
+        if (!task.isPublic) {
+            return res.status(403).json({ message: "This task is private" });
+        }
+
+        if (task.status != 1){
+            return res.status(403).json({ message: "This task is deleted" });
+        }
+
+        res.json({
+            title: task.title,
+            content: task.content,
+        });
+    } catch (error) {
+        console.error("Error fetching public task:", error);
+        res.status(500).json({ message: "Failed to fetch task" });
+    }
+};
 
 module.exports = {
     handleCreateTask,
@@ -199,4 +226,5 @@ module.exports = {
     getTrashedTasks,
     restoreTask,
     deleteTaskPermanently,
+    getPublicTaskById,
 };
