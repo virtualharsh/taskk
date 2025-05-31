@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'sonner';
+import ModeToggle from "@/components/mode-toggle";
+
 
 const ViewTask = () => {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -39,6 +41,12 @@ const ViewTask = () => {
         <div className="p-3 mt-10 md:p-0 md:py-4 md:px-4 md:mt-0">
             <div className="hidden md:flex">
                 <h1 className="text-xl mb-4 text-zinc-500">{task.title}</h1>
+            </div>
+
+            <div className="fixed flex gap-2 md:gap-3 items-center justify-start right-0 top-0 p-4 md:pr-6 z-50">
+                <div>
+                    <ModeToggle size={24} />
+                </div>
             </div>
 
             <div className="flex flex-col gap-4 px-4 py-12 md:px-4 max-w-3xl md:mx-auto">

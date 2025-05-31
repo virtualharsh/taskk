@@ -59,7 +59,6 @@ const UserHome = () => {
             toast.error("Failed to toggle favorite");
         }
     };
-
     
 
     const handleDeleteTask = async (taskId, e) => {
@@ -78,9 +77,6 @@ const UserHome = () => {
     const favoriteTasks = tasks.filter((task) => task.favorite);
     const sharedTasks = tasks.filter((task) => task.isPublic ); 
     const privateTasks = tasks.filter((task) => !task.favorite && !task.isPublic);
-
-    console.log(tasks);
-    
 
     // Task templates
     const taskTemplates = [
@@ -180,9 +176,6 @@ const UserHome = () => {
                                             </CardDescription>
                                         </div>
                                     </Card>
-
-
-
                                 ))}
 
                                 {/* Create New Note Card */}
