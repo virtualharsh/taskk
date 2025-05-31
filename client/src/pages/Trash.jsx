@@ -5,6 +5,17 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const TrashPage = () => {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -87,13 +98,34 @@ const TrashPage = () => {
                                                 <RotateCcw className="w-4 h-4 mr-1" />
                                                 Restore
                                             </Button>
-                                            <Button
-                                                variant="destructive"
-                                                className="text-sm px-3"
-                                                onClick={() => handlePermanentDelete(task._id)}
-                                            >
-                                                Delete
-                                            </Button>
+                                            
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
+                                                    <Button
+                                                        variant="destructive"
+                                                        className="text-sm px-3"
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>Permanently delete note?</AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            This action cannot be undone. This will permanently delete "{task.title || "Untitled"}" and remove it from our servers.
+                                                        </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                        <AlertDialogAction 
+                                                            onClick={() => handlePermanentDelete(task._id)}
+                                                            className="bg-red-600 text-white hover:bg-red-700 dark:bg-red-600 dark:text-white dark:hover:bg-red-700"
+                                                        >
+                                                            Delete Permanently
+                                                        </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
                                         </CardContent>
                                     </Card>
                                 ))}
