@@ -9,7 +9,8 @@ const {
     deleteTask,
     getTrashedTasks,
     deleteTaskPermanently,
-    restoreTask
+    restoreTask,
+    getPublicTaskById
 } = require('../controllers/tasks.controller')
 
 const taskRouter = express.Router()
@@ -19,6 +20,8 @@ taskRouter.put('/:taskID',handleUpdateTask);
 taskRouter.get("/:taskID", getTaskById);
 taskRouter.delete('/:taskID', deleteTask);
 taskRouter.put('/:taskID/share', toggleShared);
+
+taskRouter.get('/:taskID/view', getPublicTaskById);
 
 taskRouter.put('/:taskID/delete', deleteTaskPermanently);
 taskRouter.put('/:taskID/restore', restoreTask);

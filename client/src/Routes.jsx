@@ -9,7 +9,8 @@ import Search from "./pages/Search";
 import UserHome from "./pages/UserHome";
 import Notes from "./pages/Notes";
 import TaskSettings from "./pages/TaskSettings";
-import Trash  from "./pages/Trash";
+import Trash from "./pages/Trash";
+import ViewTask from "./pages/ViewTask";
 
 
 
@@ -27,8 +28,15 @@ export const routes = [
             { path: 'settings', element: <Settings /> },
             { path: 'search', element: <Search /> },
             { path: 'trash', element: <Trash /> },
-            { path: ':taskID', element: <Notes /> }, 
-            { path: ':taskID/settings', element: <TaskSettings /> }, 
+            { path: ':taskID', element: <Notes /> },
+            { path: ':taskID/settings', element: <TaskSettings /> },
+        ]
+    },
+    {
+        path: '/task/:taskID/',
+        element: <ViewTask />,
+        children: [
+            { path: 'view', element: <ViewTask /> }
         ]
     },
     { path: '*', element: <NotFound /> }
