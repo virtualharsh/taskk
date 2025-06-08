@@ -6,6 +6,8 @@ const sendVerificationEmail = require("../utils/sendVerificationEmail");
 
 
 const checkExistingMail = async (req, res) => {
+    const CLIENT_URL = process.env.CLIENT_URL ;
+
     try {
         const email = req.body.email || "";
 
@@ -98,7 +100,7 @@ const setVerified = async (req, res) => {
         }
 
         // Redirect to React login page (adjust URL as needed)
-        res.redirect("https://taskk-1-16pw.onrender.com/");
+        res.redirect(`${CLIENT_URL}/login`);
 
     } catch (err) {
         console.log(err);
