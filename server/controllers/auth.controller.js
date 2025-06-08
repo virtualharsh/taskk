@@ -3,10 +3,10 @@ const bcrypt = require('bcrypt');
 const User = require('../models/auth.model');
 const mongoose = require('mongoose');
 const sendVerificationEmail = require("../utils/sendVerificationEmail");
+const CLIENT_URL = process.env.CLIENT_URL;
 
 
 const checkExistingMail = async (req, res) => {
-    const CLIENT_URL = process.env.CLIENT_URL ;
 
     try {
         const email = req.body.email || "";
