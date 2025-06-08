@@ -59,6 +59,9 @@ const getTaskById = async (req, res) => {
         if (!task) {
             return res.status(404).json({ message: "Task not found." });
         }
+        if(task.status!=1){
+            return res.status(404).json({ message: "Task not found." });
+        }
 
         return res.status(200).json({ task });
     } catch (error) {
