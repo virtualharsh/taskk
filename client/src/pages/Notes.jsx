@@ -23,7 +23,7 @@ const Notes = () => {
     // Check which formats are currently active
     const updateActiveFormats = () => {
         if (!contentRef.current) return;
-        
+
         setActiveFormats({
             bold: document.queryCommandState('bold'),
             italic: document.queryCommandState('italic'),
@@ -46,7 +46,7 @@ const Notes = () => {
             try {
                 const response = await axios.get(`${API_URL}/tasks/${taskID}`);
                 setTask(response.data.task);
-                
+
                 // Set content in the contentEditable div
                 if (contentRef.current && response.data.task.content) {
                     contentRef.current.innerHTML = response.data.task.content;
@@ -130,9 +130,9 @@ const Notes = () => {
         try {
             setLoading(true);
             setError(null);
-            
+
             const content = contentRef.current ? contentRef.current.innerHTML : '';
-            
+
             const payload = {
                 ...task,
                 title: task.title || "Untitled",
@@ -202,6 +202,7 @@ const Notes = () => {
 
                             {/* Font Size - Hidden on mobile */}
                             <select
+                                id="selectheading"
                                 onChange={(e) => setFontSize(e.target.value)}
                                 className="hidden sm:block h-7 sm:h-8 px-1 sm:px-2 text-xs sm:text-sm border rounded bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600"
                                 title="Font Size"
@@ -330,9 +331,9 @@ const Notes = () => {
 
                     {/* Rich Text Content Area */}
                     <div className="relative w-full border rounded-lg bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-600 flex flex-col">
-                        <div 
+                        <div
                             className="flex-1 overflow-y-auto p-3 sm:p-4"
-                            style={{ 
+                            style={{
                                 height: 'calc(100vh - 380px)',
                                 minHeight: '300px',
                                 maxHeight: '70vh'
@@ -357,47 +358,45 @@ const Notes = () => {
                                 data-placeholder="Start writing your note..."
                             />
                         </div>
-                        
+
                         {/* Placeholder styling */}
-                        <style jsx>{`
+                        <style>{`
                             [contenteditable]:empty:before {
                                 content: attr(data-placeholder);
                                 color: #9ca3af;
                                 pointer-events: none;
                                 font-style: italic;
                             }
-                            
-                            /* Custom scrollbar */
+
                             .overflow-y-auto::-webkit-scrollbar {
                                 width: 8px;
                             }
-                            
+
                             .overflow-y-auto::-webkit-scrollbar-track {
                                 background: #f1f5f9;
                                 border-radius: 4px;
                             }
-                            
+
                             .dark .overflow-y-auto::-webkit-scrollbar-track {
                                 background: #374151;
                             }
-                            
+
                             .overflow-y-auto::-webkit-scrollbar-thumb {
                                 background: #cbd5e1;
                                 border-radius: 4px;
                             }
-                            
+
                             .dark .overflow-y-auto::-webkit-scrollbar-thumb {
                                 background: #6b7280;
                             }
-                            
+
                             .overflow-y-auto::-webkit-scrollbar-thumb:hover {
                                 background: #94a3b8;
                             }
-                            
+
                             .dark .overflow-y-auto::-webkit-scrollbar-thumb:hover {
                                 background: #9ca3af;
-                            }
-                        `}</style>
+                            }`}</style>
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mt-4 sm:mt-6">

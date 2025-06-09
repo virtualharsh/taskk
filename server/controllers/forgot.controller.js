@@ -1,10 +1,12 @@
 const User = require("../models/auth.model");
 const sendResetEmail = require("../utils/sendResetEmail");
-console.log("CLIENT_URL:", process.env.CLIENT_URL);
-const CLIENT_URL = process.env.CLIENT_URL;
+const bcrypt = require("bcrypt");
+
 
 const requestPasswordReset = async (req, res) => {
     const { email } = req.body;
+
+    const CLIENT_URL = process.env.CLIENT_URL;
 
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -31,7 +33,6 @@ const resetPassword = async (req, res) => {
 
     if (!user) return res.status(400).json({ message: "Invalid or expired link" });
 
-    const bcrypt = require("bcrypt");
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
     user.resetPasswordExpires = null;
