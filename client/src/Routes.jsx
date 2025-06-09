@@ -11,12 +11,14 @@ import Notes from "./pages/Notes";
 import TaskSettings from "./pages/TaskSettings";
 import Trash from "./pages/Trash";
 import ViewTask from "./pages/ViewTask";
-
-
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 export const routes = [
     { path: '/', element: <Landing /> },
     { path: '/login', element: <Login /> },
+    { path: '/forgot-password', element: <ForgotPassword />},
+    { path: '/reset-password/:token', element: <ResetPassword />},
     { path: '/signup', element: <Signup /> },
     {
         path: '/user/:username/',

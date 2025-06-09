@@ -111,7 +111,7 @@ const Login = () => {
                                 </div>
 
                                 <div className="flex justify-end mb-4">
-                                    <Link to="/NotFound"
+                                    <Link to="/forgot-password"
                                         variant="outline"
                                         className="cursor-pointer hover:underline text-xs border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white"
                                     >

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
-    avatar:{
-        type:String,
-        default:"",
+    avatar: {
+        type: String,
+        default: "",
     },
     email: {
         type: String,
@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
         trim: true,
         lowercase: true,
     },
-    username:{
+    username: {
         type: String,
         required: true,
         unique: true,
@@ -24,9 +24,14 @@ const userSchema = new mongoose.Schema({
         trim: true,
     },
     isVerified: {
-        type:Boolean,
-        default:false,
+        type: Boolean,
+        default: false,
     },
+    resetPasswordExpires: {
+        type: Date,
+        default: null,
+    },
+
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

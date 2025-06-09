@@ -119,7 +119,7 @@ const TrashPage = () => {
                                                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                                                         <AlertDialogAction 
                                                             onClick={() => handlePermanentDelete(task._id)}
-                                                            className="bg-red-600 text-white hover:bg-red-700 dark:bg-red-600 dark:text-white dark:hover:bg-red-700"
+                                                            className="bg-destructive hover:bg-destructive/90 text-white"
                                                         >
                                                             Delete Permanently
                                                         </AlertDialogAction>
