@@ -168,14 +168,14 @@ const Notes = () => {
                             if (e.key === "Enter") e.preventDefault();
                         }}
                         placeholder="Untitled"
-                        className="w-full text-xl sm:text-2xl md:text-3xl font-semibold outline-none bg-transparent text-foreground resize-none overflow-hidden"
+                        className="w-full sticky text-xl sm:text-2xl md:text-3xl font-semibold outline-none bg-transparent text-foreground resize-none overflow-hidden"
                         style={{ height: "auto", border: "none", padding: "0px" }}
                         rows={1}
                     />
 
                     {/* Rich Text Toolbar */}
-                    <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600 pb-2 mb-2">
-                        <div className="flex flex-wrap items-center gap-1 p-2 border rounded-lg bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-600">
+                    <div className="sticky rounded-lg top-0 z-10 bg-white dark:bg-zinc-900  border-zinc-200 dark:border-zinc-600 pb-2 mb-2">
+                        <div className="flex flex-wrap items-center gap-1 p-2  bg-gray-50 dark:bg-zinc-900">
                             {/* Undo/Redo */}
                             <div className="flex items-center gap-1">
                                 <Button
@@ -303,9 +303,9 @@ const Notes = () => {
                                 </Button>
                             </div>
 
-                            <div className="hidden xs:block w-px h-5 sm:h-6 bg-gray-300 dark:bg-gray-600 mx-1" />
+                            <div className="hidden xs:block w-px h-5 sm:h-6 bg-gray-300 dark:bg-zinc-800 mx-1" />
 
-                            {/* Lists */}
+                            {/* Lists
                             <div className="flex items-center gap-1">
                                 <Button
                                     variant="ghost"
@@ -325,12 +325,12 @@ const Notes = () => {
                                 >
                                     <ListOrdered className="w-3 h-3 sm:w-4 sm:h-4" />
                                 </Button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
                     {/* Rich Text Content Area */}
-                    <div className="relative w-full border rounded-lg bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-600 flex flex-col">
+                    <div className="w-full rounded-lg bg-white dark:bg-zinc-950 border-gray-200 flex flex-col">
                         <div
                             className="flex-1 overflow-y-auto p-3 sm:p-4"
                             style={{
@@ -396,7 +396,8 @@ const Notes = () => {
 
                             .dark .overflow-y-auto::-webkit-scrollbar-thumb:hover {
                                 background: #9ca3af;
-                            }`}</style>
+                            }`
+                            }</style>
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mt-4 sm:mt-6">

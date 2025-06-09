@@ -21,7 +21,6 @@ import {
 const Settings = () => {
     const SERVER = import.meta.env.VITE_SERVER;
     const navigate = useNavigate();
-    const usernameFromParams = useParams().username;
 
     const localData = JSON.parse(localStorage.getItem("authToken"));
     const token = localData.token;
@@ -108,6 +107,7 @@ const Settings = () => {
                                         type="button"
                                         variant="ghost"
                                         size="sm"
+                                        tabIndex={-1}
                                         className="absolute right-0 top-0 h-full px-3 py-2 cursor-pointer text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
                                         onClick={() => setShowOldPassword(!showOldPassword)}
                                     >
@@ -131,6 +131,7 @@ const Settings = () => {
                                         type="button"
                                         variant="ghost"
                                         size="sm"
+                                        tabIndex={-1}
                                         className="absolute right-0 top-0 h-full px-3 py-2 cursor-pointer text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
                                         onClick={() => setShowNewPassword(!showNewPassword)}
                                     >
@@ -167,11 +168,27 @@ const Settings = () => {
                             End current session and redirect you to the login page.
                         </p>
                     </div>
-                    <Button variant="outline" onClick={handleLogout} className="mt-4 md:mt-0">
-                        Logout
-                    </Button>
+
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="outline" className="mt-4 md:mt-0">Logout</Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    Are you sure you want to logout? This will end your current session.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </div>
             </div>
+
         </div>
     );
 };
