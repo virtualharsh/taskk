@@ -13,6 +13,34 @@ const UserHome = () => {
     const { username } = useParams();
     const [tasks, setTasks] = useState([]);
 
+    // Function to strip HTML tags but preserve line breaks
+    const stripHtmlTags = (html) => {
+        if (!html) return "";
+        
+        // Replace block elements and <br> tags with line breaks
+        let text = html
+            .replace(/<div[^>]*>/gi, '\n')
+            .replace(/<\/div>/gi, '')
+            .replace(/<p[^>]*>/gi, '\n')
+            .replace(/<\/p>/gi, '')
+            .replace(/<br[^>]*>/gi, '\n')
+            .replace(/<\/br>/gi, '')
+            .replace(/<h[1-6][^>]*>/gi, '\n')
+            .replace(/<\/h[1-6]>/gi, '')
+            .replace(/<li[^>]*>/gi, '\n• ')
+            .replace(/<\/li>/gi, '');
+        
+        // Create a temporary div to parse remaining HTML
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = text;
+        
+        // Get text content
+        const textContent = tempDiv.textContent || tempDiv.innerText || "";
+        
+        // Clean up multiple line breaks and trim
+        return textContent.replace(/\n\s*\n/g, '\n').trim();
+    };
+
     useEffect(() => {
         fetchTasks();
     }, [username]);
@@ -134,7 +162,10 @@ const UserHome = () => {
                 {taskList.map((task) => (
                     <TaskCard
                         key={task._id}
-                        task={task}
+                        task={{
+                            ...task,
+                            content: stripHtmlTags(task.content) // Strip HTML tags for display
+                        }}
                         onToggleFavorite={toggleFavorite}
                         onDelete={handleDeleteTask}
                     />
@@ -171,8 +202,8 @@ const UserHome = () => {
                                             <CardTitle className="truncate text-sm sm:text-base mb-1 ">
                                                 {task.title || "Untitled"}
                                             </CardTitle>
-                                            <CardDescription className="truncate text-xs sm:text-sm text-gray-500 dark:text-gray-400 overflow-hidden">
-                                                {task.content || "No content"}
+                                            <CardDescription className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 overflow-hidden line-clamp-2" style={{ whiteSpace: 'pre-wrap' }}>
+                                                {stripHtmlTags(task.content) || "No content"}
                                             </CardDescription>
                                         </div>
                                     </Card>

@@ -281,7 +281,6 @@ ${process.env.BASE_URL}
                                     </div>
                                     <p class="address">
                                         Sent by Taskk<br>
-                                        ${process.env.COMPANY_ADDRESS || '123 Business St, Suite 100, City, ST 12345'}
                                     </p>
                                 </div>
                             </div>
