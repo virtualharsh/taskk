@@ -15,6 +15,10 @@ import {
     AlertDialogCancel,
     AlertDialogAction,
 } from "@/components/ui/alert-dialog";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Calendar } from "@/components/ui/calendar"
+import { Check } from "lucide-react"
+
 
 const TaskSettings = () => {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -23,6 +27,9 @@ const TaskSettings = () => {
     const [copied, setCopied] = useState(false);
     const [task, setTask] = useState({});
     const navigate = useNavigate();
+
+    const [date, setDate] = useState(null)
+
 
     useEffect(() => {
         const fetchTask = async () => {
@@ -67,13 +74,71 @@ const TaskSettings = () => {
         }
     };
 
+
+    const addDeadline = async (chosenDate) => {
+        try {
+            const response = await axios.put(`${API_URL}/tasks/${task._id}/deadline`, {
+                deadline: chosenDate, // send date in body
+            });
+
+            toast.success(response.data.message);
+            return response.data.task;
+        } catch (error) {
+            console.error("Failed to add deadline:", error);
+            toast.error("Failed to add deadline");
+        }
+    };
+
     return (
         <div className="p-3 mt-10 md:p-0 md:py-2 md:mt-0">
             <div className="hidden md:flex">
                 <h1 className="text-xl mb-4 text-zinc-500">{task.title}'s Settings</h1>
             </div>
 
-            {/* Share Settings */}
+            <div className="flex flex-col gap-3 px-6 py-6 md:px-10 max-w-3xl md:mx-auto">
+                <h2 className="text-lg font-semibold">Task Settings</h2>
+                <div className="border rounded-lg divide-y overflow-hidden">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between p-4">
+                        <div>
+                            <h3 className="font-medium">Add Deadline</h3>
+                            <p className="text-sm text-muted-foreground">
+                                Add deadline to this task, we'll tell you in alerts
+                            </p>
+                        </div>
+
+                        <div className="flex items-center gap-2 mt-4 md:mt-0">
+                            {/* Calendar Popover */}
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button variant="outline">
+                                        {date ? date.toDateString() : "Add Deadline"}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="p-0">
+                                    <Calendar
+                                        mode="single"
+                                        selected={date}
+                                        onSelect={setDate}
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
+
+                            {/* Confirm Button - only visible if a date is selected */}
+                            {date && (
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => addDeadline(date)}  // ✅ pass args properly
+                                >
+                                    <Check className="w-4 h-4" />
+                                </Button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div className="flex flex-col gap-3 px-6 py-6 md:px-10 max-w-3xl md:mx-auto">
                 <h2 className="text-lg font-semibold">Sharing</h2>
                 <div className="border rounded-lg divide-y overflow-hidden">

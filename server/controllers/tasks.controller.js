@@ -218,6 +218,28 @@ const getPublicTaskById = async (req, res) => {
     }
 };
 
+const addDeadlineToTask = async (req, res) => {
+    try {
+        const { taskID } = req.params;
+        const { deadline } = req.body; // date comes from frontend
+
+        const updatedTask = await Task.findOneAndUpdate(
+            { _id: taskID },
+            { deadline: deadline },
+            { new: true }
+        );
+
+        if (!updatedTask) {
+            return res.status(404).json({ message: "Task not found or unauthorized." });
+        }
+
+        return res.json({ message: "Deadline added successfully.", task: updatedTask });
+    } catch (error) {
+        console.error("Add deadline error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
 module.exports = {
     handleCreateTask,
     handleUpdateTask,
@@ -230,4 +252,6 @@ module.exports = {
     restoreTask,
     deleteTaskPermanently,
     getPublicTaskById,
+    addDeadlineToTask,
+    
 };

@@ -21,6 +21,10 @@ const taskSchema = new mongoose.Schema(
             required: true
         },
 
+        deadline: {
+            type: Date, // new field
+        },
+
         favorite: {
             type: Boolean,
             default: false,

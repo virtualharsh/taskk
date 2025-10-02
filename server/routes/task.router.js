@@ -10,7 +10,8 @@ const {
     getTrashedTasks,
     deleteTaskPermanently,
     restoreTask,
-    getPublicTaskById
+    getPublicTaskById,
+    addDeadlineToTask
 } = require('../controllers/tasks.controller')
 
 const taskRouter = express.Router()
@@ -30,6 +31,9 @@ taskRouter.get('/user/:username',getTasksByUsername);
 taskRouter.get('/user/:username/trash',getTrashedTasks);
 
 taskRouter.put('/:taskID/favorite', toggleFavorite);
+
+taskRouter.put("/:taskID/deadline", addDeadlineToTask);
+
 
 
 
